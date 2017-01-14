@@ -45,7 +45,7 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     try:
                         message_text = messaging_event["message"]["text"]  # the message's text
-                    except: 
+                    except:
                         message_text = "BAD VALUE"
 
                     try:
@@ -73,9 +73,9 @@ def handle_message(sender_id, message_text):
     log("message as text")
     fileencoding = "utf-8"
     message_as_string = str(message_text)
-    
+
     connected, new, state, user_info, messages = get_state(sender_id)
-    
+
     if user_info is None:
         user_info = get_user_info(sender_id)
 
@@ -95,9 +95,10 @@ def handle_message(sender_id, message_text):
     if STORY in message_as_string or state[0] == STORY:
         pass
     elif PICTURE in message_as_string or state[0] == STORY:
-        state = send_image(sender_id , getURL(message_as_string))   
+        state = send_image(sender_id , getURL(message_as_string))
     elif WEATHER in message_as_string or state[0] == WEATHER:
         state, message_out = handle_weather(message_as_string)
+        send_message(sender_id, message_out)
     elif RPS in message_as_string or state[0] == RPS:
         state, message_out = handle_rps(state, message_as_string)
     else:
@@ -109,7 +110,7 @@ def handle_message(sender_id, message_text):
             state = ("new")
         else:
             send_message(sender_id, message_text + ' daddy <3')
-        
+
     # store current information
     update_state(sender_id, state, user_info, message_in, message_out)
 
@@ -119,11 +120,11 @@ def get_state(sender_id):
     """
     if history is None:
         history = {}
-    
+
     if sender_id in history:
         current_time = time.time()
         time_stamp, state, user_info, messages = history[sender_id]
-        
+
         if time_stamp - current_time < session_length:
             # user is in a current session
             return True, False, state, user_info, messages
@@ -152,7 +153,7 @@ def get_user_info(target_id):
         data = None
         try:
             data = r.json()
-        except: 
+        except:
             data = {}
         return data
 
@@ -204,7 +205,7 @@ def play_rps(userThrow):
 def send_message(recipient_id, message_text):
 
     log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
-    
+
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
     }
@@ -225,7 +226,7 @@ def send_message(recipient_id, message_text):
         log(r.text)
 
 def send_image (recipient_id , url="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQwY9Xlth-JC3201W5rdvRK0d0CDfYz9pNllk3SBW-_P7TkTP5d"):
-    
+
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
     }
@@ -240,8 +241,8 @@ def send_image (recipient_id , url="https://encrypted-tbn1.gstatic.com/images?q=
             "attachment": {
                 "type": "image",
                 "payload":{
-                    "url": url 
-                    } 
+                    "url": url
+                    }
                 }
             }
         # "message": {
