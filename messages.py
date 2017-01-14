@@ -6,7 +6,7 @@ import time
 
 from random import randint
 from flask import Flask, request
-from ImageSearch import *
+from image_search import *
 
 
 
