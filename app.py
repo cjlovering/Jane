@@ -12,6 +12,7 @@ from story import handle_story
 from image_search import *
 from messages import *
 from constants import *
+from flip_coin import *
 
 
 
@@ -114,6 +115,9 @@ def handle_message(sender_id, message_text):
         if description is not None:
             log("Description is not None, Sending image :  {0}".format(description))
             send_image(sender_id , getURL("weather " + description))
+    elif COINFLIP in message_as_string :
+        flip_coin(sender_id)
+
 
 
 
