@@ -43,7 +43,6 @@ def webhook():
 
                     try:
                         message_text.decode('utf-8')
-                        print "string is UTF-8, length %d bytes" % len(string)
                     except UnicodeError:
                         print "string is not UTF-8"
                         message_text = "NON UNICODE"
