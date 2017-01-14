@@ -118,6 +118,7 @@ def get_state(sender_id):
     """
     returns connected, new, state, user_info, messages
     """
+    global history
     if history is None:
         history = {}
 
@@ -136,6 +137,7 @@ def get_state(sender_id):
     return False, True, None, None, None
 
 def update_state(sender_id, state, user_info, message_in, message_out):
+    global history
     time_stamp = time.time()
     history[sender_id] = (time_stamp, state, user_info, (message_in, message_out))
 
