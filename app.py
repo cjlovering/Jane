@@ -119,7 +119,7 @@ def handle_message(sender_id, message_text):
             log("Description is not None, Sending image :  {0}".format(description))
             send_image(sender_id , getURL("weather " + description))
     elif COINFLIP in message_as_string or state is not None and state == COINFLIP :
-        handle_coin_flip(sender_id, message_in)
+        handle_coin_flip(sender_id, message_as_string)
 
 
 
