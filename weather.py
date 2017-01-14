@@ -4,7 +4,7 @@ import math
 
 UNIT = 'F'
 class Weather:
-    def __init__(self):
+    def __init__(self,city):
         self.city = city if city else "Boston,us"
         self.temp = 0
         self.temp_min = 0
