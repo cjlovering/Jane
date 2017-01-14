@@ -99,14 +99,14 @@ def handle_message(sender_id, message_text):
                 send_message(sender_id, message_out)
 
 
-    if STORY in message_as_string or state[0] == STORY:
+    if STORY in message_as_string or state is not None and state[0] == STORY:
         pass
-    elif PICTURE in message_as_string or state[0] == STORY:
+    elif PICTURE in message_as_string or state is not None and state[0] == STORY:
         state = send_image(sender_id , getURL(message_as_string))
-    elif WEATHER in message_as_string or state[0] == WEATHER:
+    elif WEATHER in message_as_string or state is not None and state[0] == WEATHER:
         state, message_out = handle_weather(message_as_string)
         send_message(sender_id, message_out)
-    elif RPS in message_as_string or state[0] == RPS:
+    elif RPS in message_as_string or state is not None and state[0] == RPS:
         state, message_out = handle_rps(state, message_as_string)
     else:
         # generic reponse
