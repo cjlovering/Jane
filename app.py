@@ -254,12 +254,10 @@ def send_image (recipient_id , url="https://encrypted-tbn1.gstatic.com/images?q=
         log(r.status_code)
         log(r.text)
 
-
-
 def log(message):  # simple wrapper for logging to stdout on heroku
     print str(message)
     sys.stdout.flush()
 
-
 if __name__ == '__main__':
+    history = None
     app.run(debug=True)
