@@ -18,13 +18,12 @@ from coin_flip import *
 
 
 app = Flask(__name__)
-history = None
 session_length = 150  # 2 1/2 min
-
-history = None
+global history
 
 @app.route('/', methods=['GET'])
 def verify():
+    history = None
     # when the endpoint is registered as a webhook, it must echo back
     # the 'hub.challenge' value it receives in the query arguments
     if request.args.get("hub.mode") == "subscribe" and request.args.get("hub.challenge"):
