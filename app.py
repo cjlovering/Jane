@@ -61,7 +61,8 @@ def webhook():
     return "ok", 200
 
 def handle_message(sender_id, message_text):
-    log("Type of message_text " , type(message_text))
+    log("Type of message_text " )
+    log(type (message_text))
     # we can add parsing and logic and task here
     send_message(sender_id, message_text + ' daddy <3')
 
