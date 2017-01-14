@@ -9,6 +9,7 @@ from flask import Flask, request
 
 from weather import handle_weather
 from ImageSearch import *
+from messages import *
 from constants import *
 
 app = Flask(__name__)
@@ -126,7 +127,8 @@ def get_state(sender_id):
     """
     global history
     if history is None:
-        history = {}
+        with open('STATE.json') as data_file:    
+            history = json.load(data_file)
 
     if sender_id in history:
         current_time = time.time()
@@ -146,6 +148,8 @@ def update_state(sender_id, state, user_info, message_in, message_out):
     global history
     time_stamp = time.time()
     history[sender_id] = (time_stamp, state, user_info, (message_in, message_out))
+    with open('STATE.json', 'w') as outfile:
+            json.dump(history , outfile)
 
 def get_user_info(target_id):
     params = {
@@ -211,57 +215,6 @@ def play_rps(userThrow):
         else:
             return "Jane wins.  Was there ever any doubt?"
 
-def send_message(recipient_id, message_text):
-
-    log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
-
-    params = {
-        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
-    }
-    headers = {
-        "Content-Type": "application/json"
-    }
-    data = json.dumps({
-        "recipient": {
-            "id": recipient_id
-        },
-        "message": {
-            "text": message_text
-        }
-    })
-    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
-    if r.status_code != 200:
-        log(r.status_code)
-        log(r.text)
-
-def send_image (recipient_id , url="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQwY9Xlth-JC3201W5rdvRK0d0CDfYz9pNllk3SBW-_P7TkTP5d"):
-
-    params = {
-        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
-    }
-    headers = {
-        "Content-Type": "application/json"
-    }
-    data = json.dumps({
-        "recipient": {
-            "id": recipient_id
-        },
-        "message": {
-            "attachment": {
-                "type": "image",
-                "payload":{
-                    "url": url
-                    }
-                }
-            }
-        # "message": {
-            # "text": message_text
-        # }
-    })
-    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
-    if r.status_code != 200:
-        log(r.status_code)
-        log(r.text)
 
 def log(message):  # simple wrapper for logging to stdout on heroku
     print str(message)
