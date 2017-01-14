@@ -72,7 +72,9 @@ def handle_message(sender_id, message_text):
         return;
     else if("!rps" in message_as_string):
         userThrow = input("Let's play!  Prepare yourself.")
-        play_rps(
+        resp = play_rps(userThrow)
+        send_message(sender_id, resp)
+        return;
     # we can add parsing and logic and task here
     send_message(sender_id, message_text + ' daddy <3')
 
