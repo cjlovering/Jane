@@ -42,7 +42,7 @@ def webhook():
                         message_text = "BAD VALUE"
 
                     try:
-                        message_text.decode('utf-8')
+                        message_text.encode('utf-8')
                     except UnicodeError:
                         print "string is not UTF-8"
                         message_text = "NON UNICODE"
@@ -68,6 +68,7 @@ def handle_message(sender_id, message_text):
     message_as_string = unicode(message_text , fileencoding)
     if(message_as_string.contains("picture")):
         send_image(recipient_id)
+        return; 
     # we can add parsing and logic and task here
     send_message(sender_id, message_text + ' daddy <3')
 
@@ -96,11 +97,7 @@ def send_message(recipient_id, message_text):
 
 def send_image (recipient_id , url="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQwY9Xlth-JC3201W5rdvRK0d0CDfYz9pNllk3SBW-_P7TkTP5d"):
 
-    log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
-
-    params = {
-        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
-    }
+    
     headers = {
         "Content-Type": "application/json"
     }
@@ -112,16 +109,18 @@ def send_image (recipient_id , url="https://encrypted-tbn1.gstatic.com/images?q=
             "attachment": {
                 "type": "image",
                 "payload":{
-                    "url": url 
+                    "url": "https://petersapparel.parseapp.com/img/shirt.png" 
                     } 
                 }
             }
+        # "message": {
+            # "text": message_text
+        # }
     })
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
-
 
 
 def log(message):  # simple wrapper for logging to stdout on heroku
