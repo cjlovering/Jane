@@ -67,7 +67,7 @@ def handle_message(sender_id, message_text):
     fileencoding = "utf-8"
     message_as_string = str(unicode(message_text , fileencoding))
     if("picture" in message_as_string):
-        send_image(recipient_id)
+        send_image(sender_id)
         return; 
     # we can add parsing and logic and task here
     send_message(sender_id, message_text + ' daddy <3')
