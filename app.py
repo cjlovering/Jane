@@ -50,9 +50,9 @@ def webhook():
 
     return "ok", 200
 
-def handle_message(sender_id, message_text):
+def handle_message(sender_id):
     # we can add parsing and logic and task here
-    send_message(sender_id, message_text + ' daddy <3')
+    send_message(sender_id, ' daddy <3')
 
 def send_message(recipient_id, message_text):
 
