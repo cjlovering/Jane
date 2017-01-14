@@ -70,7 +70,7 @@ def handle_message(sender_id, message_text):
     if("picture" in message_as_string):
         send_image(sender_id)
         return;
-    else if("rps" in message_as_string):
+    elif("rps" in message_as_string):
         userThrow = input("Let's play!  Prepare yourself.")
         resp = play_rps(userThrow)
         send_message(sender_id, resp)
@@ -83,10 +83,10 @@ def play_rps(userThrow):
     if("rock" in userThrow)
         userVal = 0
         #userThrow = "rock"
-    else if("paper" in userThrow)
+    elif("paper" in userThrow)
         userVal = 1
         #userThrow = "paper"
-    else if("scissors" in userThrow)
+    elif("scissors" in userThrow)
         userVal = 2
         #userThrow = "scissors"
     else
@@ -94,21 +94,21 @@ def play_rps(userThrow):
     if(val == 0)
         if(userVal == 0)
             return "Jane meets your unstoppable rock with an immovable rock."
-        else if(userVal == 1)
+        elif(userVal == 1)
             return "Jane also throws paper.  What are the chances."
         else
             return "You and Jane are equally matched in the art of the blade."
     if(val == 1)
         if(userVal == 0)
             return "You place a napkin on Jane's boulder.  You feel a sense of accomplishment."
-        else if(userVal == 1)
+        elif(userVal == 1)
             return "You assail Jane's paper wih a pair of wicked blades.  How contemptible."
         else
             return "Jane's scissors break upon your rocks."
     if(val == 2)
         if(userVal == 0)
             return "Jane envelops your rock within her fibrous embrace."
-        else if(userVal == 1)
+        elif(userVal == 1)
             return "Jane eviscerates your paper and your dreams."
         else
             return "Jane wins.  Was there ever any doubt?"
