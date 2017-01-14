@@ -77,7 +77,7 @@ def handle_message(sender_id, message_text):
     connected, new, state, user_info, messages = get_state(sender_id)
 
     if user_info is None:
-        user_info = get_user_info(sender_id)
+        user_info = None #get_user_info(sender_id)
 
 
     if not connected:
@@ -86,12 +86,18 @@ def handle_message(sender_id, message_text):
             # send greeting message
             message_out = "Hey there, nice to meet you! :)"
             send_message(sender_id, message_out)
-            message_out = "Cool name! {0}, i like it... ;)".format(user_info["first_name"])
-            send_message(sender_id, message_out)
+            if user_info is not None:
+                message_out = "Cool name! {0}, i like it... ;)".format(user_info["first_name"])
+                send_message(sender_id, message_out)
         else:
             # send welcome-back message
-            message_out = "Great to see you again, {0}".format(user_info["first_name"])
-            send_message(sender_id, message_out)
+            if user_info is not None:
+                message_out = "Great to see you again, {0}!".format(user_info["first_name"])
+                send_message(sender_id, message_out)
+            else:
+                message_out = "Great to see you again!"
+                send_message(sender_id, message_out)
+
 
     if STORY in message_as_string or state[0] == STORY:
         pass
@@ -104,13 +110,7 @@ def handle_message(sender_id, message_text):
         state, message_out = handle_rps(state, message_as_string)
     else:
         # generic reponse
-        if new:
-            # find out their name
-            message_out = "Sorry, what? What's your name? ;)"
-            send_message(sender_id, probing_message)
-            state = ("new")
-        else:
-            send_message(sender_id, message_text + ' daddy <3')
+        send_message(sender_id, message_text + ' daddy <3')
 
     # store current information
     update_state(sender_id, state, user_info, message_in, message_out)
@@ -148,7 +148,7 @@ def get_user_info(target_id):
         "fields": "first_name,last_name,profile_pic,locale,timezone,gender"
     }
     url = "https://graph.facebook.com/v2.6/<{0}>".format(target_id)
-    r = await requests.get(url, params=params)
+    r = requests.get(url, params=params)
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
