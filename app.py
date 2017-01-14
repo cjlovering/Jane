@@ -1,14 +1,15 @@
 import os
 import sys
 import json
-
 import requests
+import time
+
+from random import randint
 from flask import Flask, request
+
 from weather import handle_weather
 from ImageSearch import *
 from constants import *
-
-import time
 
 app = Flask(__name__)
 history = None
@@ -24,7 +25,6 @@ def verify():
             return "Verification token mismatch", 403
         return request.args["hub.challenge"], 200
     return "<h1> Hello world </h1>", 200
-
 
 @app.route('/', methods=['POST'])
 def webhook():
@@ -45,7 +45,7 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     try:
                         message_text = messaging_event["message"]["text"]  # the message's text
-                    except:
+                    except: 
                         message_text = "BAD VALUE"
 
                     try:
@@ -68,7 +68,7 @@ def webhook():
     return "ok", 200
 
 def handle_message(sender_id, message_text):
-    log("Type of message_text " )
+    log("Type of message_text ")
     log(type (message_text))
     log("message as text")
     fileencoding = "utf-8"
@@ -96,8 +96,10 @@ def handle_message(sender_id, message_text):
         pass
     elif PICTURE in message_as_string or state[0] == STORY:
         state = send_image(sender_id , getURL(message_as_string))   
-    elif WEATHER in message_as_string or state[0] == STORY:
+    elif WEATHER in message_as_string or state[0] == WEATHER:
         state, message_out = handle_weather(message_as_string)
+    elif RPS in message_as_string or state[0] == RPS:
+        state, message_out = handle_rps(state, message_as_string)
     else:
         # generic reponse
         if new:
@@ -109,36 +111,38 @@ def handle_message(sender_id, message_text):
             send_message(sender_id, message_text + ' daddy <3')
         
     # store current information
-    update_state(sender_id, state, message_in, message_out)
+    update_state(sender_id, state, user_info, message_in, message_out)
 
 def get_state(sender_id):
+    """
+    returns connected, new, state, user_info, messages
+    """
     if history is None:
         history = {}
     
     if sender_id in history:
         current_time = time.time()
-        time_stamp, state, messages = history[sender_id]
+        time_stamp, state, user_info, messages = history[sender_id]
         
         if time_stamp - current_time < session_length:
             # user is in a current session
-            return True, False, state, messages
+            return True, False, state, user_info, messages
         else:
             # user has been in a session but is not currently
-            return False, False, None, None
+            return False, False, None, user_info, None
 
     # user is new
-    return False, True, None, None
+    return False, True, None, None, None
 
-def update_state(sender_id, state, message_in, message_out):
+def update_state(sender_id, state, user_info, message_in, message_out):
     time_stamp = time.time()
-    history[sender_id] = (time_stamp, state, (message_in, message_out))
+    history[sender_id] = (time_stamp, state, user_info, (message_in, message_out))
 
 def get_user_info(target_id):
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"],
         "fields": "first_name,last_name,profile_pic,locale,timezone,gender"
     }
-    
     url = "https://graph.facebook.com/v2.6/<{0}>".format(target_id)
     r = requests.get(url, params=params, headers=headers, data=data)
     if r.status_code != 200:
@@ -151,6 +155,51 @@ def get_user_info(target_id):
         except: 
             data = {}
         return data
+
+def handle_rps(state, message_in):
+    if state is None:
+        message_out = "Let's play! Prepare yourself."
+        send_message(sender_id, message_out)
+        return ('rps', message_out)
+    else:
+        message_out = play_rps(message_in)
+        send_message(sender_id, message_out)
+        return (None, None)
+
+def play_rps(userThrow):
+    val = randint(0,2)
+    if("rock" in userThrow):
+        userVal = 0
+        #userThrow = "rock"
+    elif("paper" in userThrow):
+        userVal = 1
+        #userThrow = "paper"
+    elif("scissors" in userThrow):
+        userVal = 2
+        #userThrow = "scissors"
+    else:
+        return "Not a valid option. Jane wins by default!"
+    if val == 0:
+        if userVal == 0:
+            return "Jane meets your unstoppable rock with an immovable rock."
+        elif userVal == 1:
+            return "Jane also throws paper.  What are the chances."
+        else:
+            return "You and Jane are equally matched in the art of the blade."
+    elif val == 1:
+        if userVal == 0:
+            return "You place a napkin on Jane's boulder.  You feel a sense of accomplishment."
+        elif userVal == 1:
+            return "You assail Jane's paper wih a pair of wicked blades.  How contemptible."
+        else:
+            return "Jane's scissors break upon your rocks."
+    else:
+        if userVal == 0:
+            return "Jane envelops your rock within her fibrous embrace."
+        elif userVal == 1:
+            return "Jane eviscerates your paper and your dreams."
+        else:
+            return "Jane wins.  Was there ever any doubt?"
 
 def send_message(recipient_id, message_text):
 
@@ -176,7 +225,7 @@ def send_message(recipient_id, message_text):
         log(r.text)
 
 def send_image (recipient_id , url="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQwY9Xlth-JC3201W5rdvRK0d0CDfYz9pNllk3SBW-_P7TkTP5d"):
-
+    
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
     }
@@ -191,8 +240,8 @@ def send_image (recipient_id , url="https://encrypted-tbn1.gstatic.com/images?q=
             "attachment": {
                 "type": "image",
                 "payload":{
-                    "url": url
-                    }
+                    "url": url 
+                    } 
                 }
             }
         # "message": {
