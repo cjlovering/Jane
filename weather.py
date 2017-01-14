@@ -1,5 +1,4 @@
 from pprint import pprint
-import pyowm
 import requests
 import math
 
