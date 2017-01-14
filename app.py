@@ -38,9 +38,11 @@ def webhook():
         # TODO: just repond to last message
         for entry in data["entry"]:
             for messaging_event in entry["messaging"]:
-
+                # Messageing_event is type dict
                 if messaging_event.get("message"):  # someone sent us a message
-
+                    # u'message', u'timestamp', u'sender', u'recipient'
+                    log ("Values of Message_event : {0}".format(messaging_event.items()))
+                    log ("\nValues as JSON : {0}".format(json.dumps (messaging_event , indent=2)))
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     try:
@@ -68,10 +70,7 @@ def webhook():
     return "ok", 200
 
 def handle_message(sender_id, message_text):
-    log("Type of message_text ")
-    log(type (message_text))
-    log("message as text")
-    fileencoding = "utf-8"
+    message_out ="" 
     message_as_string = str(message_text)
 
     connected, new, state, user_info, messages = get_state(sender_id)
@@ -110,11 +109,12 @@ def handle_message(sender_id, message_text):
         state, message_out = handle_rps(state, message_as_string)
     else:
         # generic reponse
-        send_message(sender_id, message_text + ' daddy <3')
+        message_out = message_text + ' daddy <3'
+        send_message(sender_id, message_out)
 
     # store current information
-    update_state(sender_id, state, user_info, message_in, message_out)
-
+    # update_state(sender_id, state, user_info, message_in, message_out)
+    update_state(sender_id, state, user_info, message_as_string , message_out)
 def get_state(sender_id):
     """
     returns connected, new, state, user_info, messages
