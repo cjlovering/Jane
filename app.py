@@ -100,6 +100,8 @@ def handle_message(sender_id, message_text):
 
     if STORY in message_as_string or state is not None and state[0] == STORY:
         pass
+    elif RPS in message_as_string or state is not None and state[0] == RPS:
+        state, message_out = handle_rps(state, message_as_string)
     elif PICTURE in message_as_string or state is not None and state[0] == STORY:
         state = send_image(sender_id , getURL(message_as_string))
     elif WEATHER in message_as_string or state is not None and state[0] == WEATHER:
@@ -110,8 +112,7 @@ def handle_message(sender_id, message_text):
             send_image(sender_id , getURL("weather " + description))
 
 
-    elif RPS in message_as_string or state is not None and state[0] == RPS:
-        state, message_out = handle_rps(state, message_as_string)
+
     else:
         # generic reponse
         message_out = message_text + ' daddy <3'
