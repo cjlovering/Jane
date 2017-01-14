@@ -147,7 +147,7 @@ def get_user_info(target_id):
         "fields": "first_name,last_name,profile_pic,locale,timezone,gender"
     }
     url = "https://graph.facebook.com/v2.6/<{0}>".format(target_id)
-    r = requests.get(url, params=params, headers=headers, data=data)
+    r = requests.get(url, params=params)
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
