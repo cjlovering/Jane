@@ -49,7 +49,7 @@ def handle_weather(state, message_in):
         city = message_in
 
     #parse city potentially
-    w = Weather(city)
+    w = Weather(city, None)
     success = w.request_weather()
 
     if not success:
