@@ -4,10 +4,15 @@ import json
 
 import requests
 from flask import Flask, request
-from weather import Weather
-
+from weather import handle_weather
 from ImageSearch import *
+from constants import *
+
+import time
+
 app = Flask(__name__)
+history = None
+session_length = 150  # 2 1/2 min
 
 
 @app.route('/', methods=['GET'])
@@ -30,7 +35,7 @@ def webhook():
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
 
     if data["object"] == "page":
-
+        # TODO: just repond to last message
         for entry in data["entry"]:
             for messaging_event in entry["messaging"]:
 
@@ -68,25 +73,89 @@ def handle_message(sender_id, message_text):
     log("message as text")
     fileencoding = "utf-8"
     message_as_string = str(message_text)
-    if("picture" in message_as_string):
-        send_image(sender_id , getURL(message_as_string))   
-        return;
-    if ("weather" in message_as_string):
-        #weather_text = "In which city?"
-        w = Weather("Boston,us")
-        w.request_weather()
-        temp = w.temp
-        description = w.description
-        weather_text = "The temperature is " + str(temp) + "F." + description + "."
-        send_message(sender_id, weather_text)
-        return;
-    # we can add parsing and logic and task here
-    send_message(sender_id, message_text + ' daddy <3')
+    
+    connected, new, state, user_info, messages = get_state(sender_id)
+    
+    if user_info is None:
+        user_info = get_user_info(sender_id)
+
+    if not connected:
+        # if not connected, respond!
+        if new:
+            # send greeting message
+            message_out = "Hey there, nice to meet you! :)"
+            send_message(sender_id, message_out)
+            message_out = "Cool name! {0}, i like it... ;)".format(user_info["first_name"])
+            send_message(sender_id, message_out)
+        else:
+            # send welcome-back message
+            message_out = "Great to see you again, {0}".format(user_info["first_name"])
+            send_message(sender_id, message_out)
+
+    if STORY in message_as_string or state[0] == STORY:
+        pass
+    elif PICTURE in message_as_string or state[0] == STORY:
+        state = send_image(sender_id , getURL(message_as_string))   
+    elif WEATHER in message_as_string or state[0] == STORY:
+        state, message_out = handle_weather(message_as_string)
+    else:
+        # generic reponse
+        if new:
+            # find out their name
+            message_out = "Sorry, what? What's your name? ;)"
+            send_message(sender_id, probing_message)
+            state = ("new")
+        else:
+            send_message(sender_id, message_text + ' daddy <3')
+        
+    # store current information
+    update_state(sender_id, state, message_in, message_out)
+
+def get_state(sender_id):
+    if history is None:
+        history = {}
+    
+    if sender_id in history:
+        current_time = time.time()
+        time_stamp, state, messages = history[sender_id]
+        
+        if time_stamp - current_time < session_length:
+            # user is in a current session
+            return True, False, state, messages
+        else:
+            # user has been in a session but is not currently
+            return False, False, None, None
+
+    # user is new
+    return False, True, None, None
+
+def update_state(sender_id, state, message_in, message_out):
+    time_stamp = time.time()
+    history[sender_id] = (time_stamp, state, (message_in, message_out))
+
+def get_user_info(target_id):
+    params = {
+        "access_token": os.environ["PAGE_ACCESS_TOKEN"],
+        "fields": "first_name,last_name,profile_pic,locale,timezone,gender"
+    }
+    
+    url = "https://graph.facebook.com/v2.6/<{0}>".format(target_id)
+    r = requests.get(url, params=params, headers=headers, data=data)
+    if r.status_code != 200:
+        log(r.status_code)
+        log(r.text)
+    else:
+        data = None
+        try:
+            data = r.json()
+        except: 
+            data = {}
+        return data
 
 def send_message(recipient_id, message_text):
 
     log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
-
+    
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
     }
@@ -134,6 +203,7 @@ def send_image (recipient_id , url="https://encrypted-tbn1.gstatic.com/images?q=
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
+
 
 
 def log(message):  # simple wrapper for logging to stdout on heroku
