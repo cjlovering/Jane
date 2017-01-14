@@ -42,7 +42,7 @@ def webhook():
                         message_text = "BAD VALUE"
 
                     try:
-                        message_text.encode('utf-8')
+                        message_text = message_text.encode('utf-8')
                     except UnicodeError:
                         print "string is not UTF-8"
                         message_text = "NON UNICODE"
@@ -96,7 +96,6 @@ def send_message(recipient_id, message_text):
         log(r.text)
 
 def send_image (recipient_id , url="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQwY9Xlth-JC3201W5rdvRK0d0CDfYz9pNllk3SBW-_P7TkTP5d"):
-
     
     headers = {
         "Content-Type": "application/json"
