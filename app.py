@@ -42,7 +42,7 @@ def webhook():
                         message_text = "BAD VALUE"
 
                     try:
-                        message_text.encode('utf-8')
+                        message_text = message_text.encode('utf-8')
                     except UnicodeError:
                         print "string is not UTF-8"
                         message_text = "NON UNICODE"
@@ -68,6 +68,8 @@ def send_message(recipient_id, message_text):
 
     log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
 
+
+    
     params = {"access_token": os.environ["PAGE_ACCESS_TOKEN"]}
 
     
