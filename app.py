@@ -6,7 +6,7 @@ import requests
 from flask import Flask, request
 from weather import Weather
 
-import ImageSearch
+from ImageSearch import *
 app = Flask(__name__)
 
 
