@@ -107,7 +107,7 @@ def handle_message(sender_id, message_text):
         send_message(sender_id, message_out)
         if description is not None:
             log("Description is not None, Sending image :  {0}".format(description))
-            send_image(sender_id , getURL(description))
+            send_image(sender_id , getURL("weather " + description))
 
 
     elif RPS in message_as_string or state is not None and state[0] == RPS:
