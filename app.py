@@ -6,6 +6,7 @@ import requests
 from flask import Flask, request
 from weather import Weather
 
+import ImageSearch
 app = Flask(__name__)
 
 
@@ -68,7 +69,7 @@ def handle_message(sender_id, message_text):
     fileencoding = "utf-8"
     message_as_string = str(message_text)
     if("picture" in message_as_string):
-        send_image(sender_id)
+        send_image(sender_id , getURL(message_as_string))   
         return;
     if ("weather" in message_as_string):
         #weather_text = "In which city?"
