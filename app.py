@@ -111,7 +111,7 @@ def send_image (recipient_id , url="https://encrypted-tbn1.gstatic.com/images?q=
             "attachment": {
                 "type": "image",
                 "payload":{
-                    "url": "https://petersapparel.parseapp.com/img/shirt.png" 
+                    "url": url 
                     } 
                 }
             }
