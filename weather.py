@@ -24,9 +24,9 @@ class Weather:
 
         for i in o:
             if i == "main":
-                self.temp = get_temp(o[i]['temp'])
-                self.temp_min = get_temp(o[i]['temp_min'])
-                self.temp_max = get_temp(o[i]['temp_max'])
+                self.temp = self.get_temp(o[i]['temp'])
+                self.temp_min = self.get_temp(o[i]['temp_min'])
+                self.temp_max = self.get_temp(o[i]['temp_max'])
 
             if i == "weather":
                 for j in o[i]:
