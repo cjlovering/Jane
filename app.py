@@ -102,13 +102,13 @@ def handle_message(sender_id, message_text):
                 send_message(sender_id, message_out)
 
 
-    if STORY in message_as_string or state is not None and state[0] == STORY:
+    if STORY in message_as_string or state is not None and state == STORY:
         pass
-    elif RPS in message_as_string or state is not None and state[0] == RPS:
+    elif RPS in message_as_string or state is not None and state == RPS:
         state, message_out = handle_rps(state, sender_id, message_as_string)
-    elif PICTURE in message_as_string or state is not None and state[0] == STORY:
+    elif PICTURE in message_as_string or state is not None and state == STORY:
         state = send_image(sender_id , getURL(message_as_string))
-    elif WEATHER in message_as_string or state is not None and state[0] == WEATHER:
+    elif WEATHER in message_as_string or state is not None and state == WEATHER:
         state, message_out,  description = handle_weather(state, message_as_string)
         send_message(sender_id, message_out)
         if description is not None:
