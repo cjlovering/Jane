@@ -8,13 +8,10 @@ from random import randint
 from flask import Flask, request
 
 from weather import handle_weather
-<<<<<<< HEAD
 from story import handle_story
 from image_search import *
-=======
 from ImageSearch import *
 from messages import *
->>>>>>> ea73446694437cc585d7e8505d86dad433fb3cf8
 from constants import *
 
 
