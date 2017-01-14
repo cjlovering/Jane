@@ -1,3 +1,20 @@
+import os
+import sys
+import json
+import requests
+import time
+
+from random import randint
+from flask import Flask, request
+from ImageSearch import *
+
+
+
+def log(message):  # simple wrapper for logging to stdout on heroku
+    print str(message)
+    sys.stdout.flush()
+
+
 def send_message(recipient_id, message_text):
 
     log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
