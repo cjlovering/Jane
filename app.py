@@ -8,9 +8,16 @@ from random import randint
 from flask import Flask, request
 
 from weather import handle_weather
+<<<<<<< HEAD
+from story import handle_story
+from image_search import *
+=======
 from ImageSearch import *
 from messages import *
+>>>>>>> ea73446694437cc585d7e8505d86dad433fb3cf8
 from constants import *
+
+
 
 app = Flask(__name__)
 history = None
@@ -123,6 +130,11 @@ def handle_message(sender_id, message_text):
     # update_state(sender_id, state, user_info, message_in, message_out)
     log("sender_id  {0} , state {1}" , sender_id , state)
     update_state(sender_id, state, user_info, message_as_string , message_out)
+
+
+    
+
+
 def get_state(sender_id):
     """
     returns connected, new, state, user_info, messages
@@ -181,7 +193,8 @@ def handle_rps(state, sender_id, message_in):
     if state is None:
         message_out = "Let's play! Prepare yourself."
         send_message(sender_id, message_out)
-        return ("!rps", message_out)
+        return (('!rps'), message_out)
+
     else:
         message_out = play_rps(message_in)
         send_message(sender_id, message_out)
@@ -230,3 +243,4 @@ def log(message):  # simple wrapper for logging to stdout on heroku
 if __name__ == '__main__':
     history = None
     app.run(debug=True)
+    
