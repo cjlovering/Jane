@@ -21,7 +21,7 @@ app = Flask(__name__)
 history = None
 session_length = 150  # 2 1/2 min
 
-
+history = None
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -144,9 +144,10 @@ def get_state(sender_id):
     """
     returns connected, new, state, user_info, messages
     """
-    global history
+    #TEMP
+    # global history
     if history is None:
-        try :
+        try:
             with open('STATE.json') as data_file:    
                 history = json.load(data_file)
                 log("OPENED state file : {0}".format(history))
@@ -168,12 +169,13 @@ def get_state(sender_id):
     return False, True, None, None, None
 
 def update_state(sender_id, state, user_info, message_in, message_out):
-    global history
+    #TEMP
+    # global history
     time_stamp = time.time()
     history[sender_id] = (time_stamp, state, user_info, (message_in, message_out))
     with open('STATE.json', 'w') as outfile:
-            json.dump(history , outfile)
-            log("WRITE state file : {0}".format(history))
+        json.dump(history, outfile)
+        log("WRITE state file : {0}".format(history))
 
 def get_user_info(target_id):
     params = {
