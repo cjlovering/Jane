@@ -89,7 +89,7 @@ def play_rps(userThrow):
     elif("scissors" in userThrow):
         userVal = 2
         #userThrow = "scissors"
-    else
+    else:
         return "Not a valid option. Jane wins by default!"
     if(val == 0):
         if(userVal == 0):
