@@ -63,6 +63,11 @@ def webhook():
 def handle_message(sender_id, message_text):
     log("Type of message_text " )
     log(type (message_text))
+    log("message as text")
+    fileencoding = "utf-8"
+    message_as_string = unicode(message_text , fileencoding)
+    if(message_as_string.contains("picture")):
+        send_image(recipient_id)
     # we can add parsing and logic and task here
     send_message(sender_id, message_text + ' daddy <3')
 
@@ -89,7 +94,7 @@ def send_message(recipient_id, message_text):
         log(r.status_code)
         log(r.text)
 
-def send_image (recipient_id , url="https://petersapparel.parseapp.com/img/shirt.png"):
+def send_image (recipient_id , url="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQwY9Xlth-JC3201W5rdvRK0d0CDfYz9pNllk3SBW-_P7TkTP5d"):
 
     log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
 
