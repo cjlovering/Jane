@@ -70,10 +70,6 @@ def webhook():
     return "ok", 200
 
 def handle_message(sender_id, message_text):
-    log("Type of message_text ")
-    log(type (message_text))
-    log("message as text")
-    fileencoding = "utf-8"
     message_as_string = str(message_text)
 
     connected, new, state, user_info, messages = get_state(sender_id)
@@ -115,8 +111,8 @@ def handle_message(sender_id, message_text):
         send_message(sender_id, message_text + ' daddy <3')
 
     # store current information
-    update_state(sender_id, state, user_info, message_in, message_out)
-
+    # update_state(sender_id, state, user_info, message_in, message_out)
+    update_state(sender_id, state, user_info, message_as_string , message_out)
 def get_state(sender_id):
     """
     returns connected, new, state, user_info, messages
