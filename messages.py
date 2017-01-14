@@ -29,6 +29,7 @@ def send_message(recipient_id, message_text):
         "recipient": {
             "id": recipient_id
         },
+        "sender_action":"typing_on"
         "message": {
             "text": message_text
         }
