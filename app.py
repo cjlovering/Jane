@@ -70,6 +70,7 @@ def webhook():
     return "ok", 200
 
 def handle_message(sender_id, message_text):
+    message_out ="" 
     message_as_string = str(message_text)
 
     connected, new, state, user_info, messages = get_state(sender_id)
