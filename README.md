@@ -12,3 +12,6 @@ pip install -r requirements.txt
 ```
 https://devcenter.heroku.com/articles/heroku-cli
 ```
+* go to facebook developers, accept request
+* go to https://www.facebook.com/Jane-1332708036751329/
+* send message
