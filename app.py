@@ -128,8 +128,11 @@ def get_state(sender_id):
     """
     global history
     if history is None:
-        with open('STATE.json') as data_file:    
-            history = json.load(data_file)
+        try :
+            with open('STATE.json') as data_file:    
+                history = json.load(data_file)
+        except:
+            history = None
 
     if sender_id in history:
         current_time = time.time()
