@@ -52,7 +52,7 @@ def webhook():
     return "ok", 200
 
 def handle_message(sender_id, message_text):
-    if (message_text.contains("Help")):
+    if (str(message_text).contains("Help")):
         send_message(sender_id , "Hello! I am Jane, the AI bot")
         return 
     # we can add parsing and logic and task here
