@@ -74,7 +74,7 @@ def handle_message(sender_id, message_text):
         #weather_text = "In which city?"
         w = Weather("Boston,us")
         temp = w.temp
-        weather_text = "The temperature is" + temp
+        weather_text = "The temperature is" + str(temp)
         send_message(sender_id, weather_text)
         return;
     # we can add parsing and logic and task here
