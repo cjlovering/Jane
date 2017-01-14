@@ -131,6 +131,7 @@ def get_state(sender_id):
         try :
             with open('STATE.json') as data_file:    
                 history = json.load(data_file)
+                log("OPENED state file : {0}".format(history))
         except:
             history = {}
 
@@ -154,6 +155,7 @@ def update_state(sender_id, state, user_info, message_in, message_out):
     history[sender_id] = (time_stamp, state, user_info, (message_in, message_out))
     with open('STATE.json', 'w') as outfile:
             json.dump(history , outfile)
+            log("WRITE state file : {0}".format(history))
 
 def get_user_info(target_id):
     params = {
