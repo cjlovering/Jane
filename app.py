@@ -18,12 +18,13 @@ from coin_flip import *
 
 
 app = Flask(__name__)
+history = None
 session_length = 150  # 2 1/2 min
-global history
+
+
 
 @app.route('/', methods=['GET'])
 def verify():
-    history = None
     # when the endpoint is registered as a webhook, it must echo back
     # the 'hub.challenge' value it receives in the query arguments
     if request.args.get("hub.mode") == "subscribe" and request.args.get("hub.challenge"):
@@ -115,7 +116,6 @@ def handle_message(sender_id, message_text):
         state, message_out,  description = handle_weather(state, message_as_string)
         send_message(sender_id, message_out)
         if description is not None:
-            msg_wait(sender_id)
             log("Description is not None, Sending image :  {0}".format(description))
             send_image(sender_id , getURL("weather " + description))
     elif COINFLIP in message_as_string or state is not None and state == COINFLIP :
@@ -144,8 +144,7 @@ def get_state(sender_id):
     """
     returns connected, new, state, user_info, messages
     """
-    #TEMP
-    # global history
+    global history
     if history is None:
         try:
             with open('STATE.json') as data_file:    
@@ -169,13 +168,12 @@ def get_state(sender_id):
     return False, True, None, None, None
 
 def update_state(sender_id, state, user_info, message_in, message_out):
-    #TEMP
-    # global history
+    global history
     time_stamp = time.time()
     history[sender_id] = (time_stamp, state, user_info, (message_in, message_out))
     with open('STATE.json', 'w') as outfile:
-        json.dump(history, outfile)
-        log("WRITE state file : {0}".format(history))
+            json.dump(history , outfile)
+            log("WRITE state file : {0}".format(history))
 
 def get_user_info(target_id):
     params = {
