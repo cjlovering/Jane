@@ -41,6 +41,12 @@ def webhook():
                     except: 
                         message_text = "BAD VALUE"
 
+                    try:
+                        message_text.decode('utf-8')
+                        print "string is UTF-8, length %d bytes" % len(string)
+                    except UnicodeError:
+                        print "string is not UTF-8"
+
                     handle_message(sender_id, message_text)
 
                 if messaging_event.get("delivery"):  # delivery confirmation
