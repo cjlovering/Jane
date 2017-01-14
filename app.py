@@ -70,7 +70,8 @@ def handle_message(sender_id, message_text):
     if("picture" in message_as_string):
         send_image(sender_id)
         return;
-    else if("rps" in message_as_string):
+    else if("!rps" in message_as_string):
+        userThrow = input("Let's play!  Prepare yourself.")
         play_rps(
     # we can add parsing and logic and task here
     send_message(sender_id, message_text + ' daddy <3')
@@ -109,11 +110,6 @@ def play_rps(userThrow):
             return "Jane eviscerates your paper and your dreams."
         else
             return "Jane wins.  Was there ever any doubt?"
-            
-    else if(val == 1)
-        compThrow = "paper"
-    else
-        compThrow = "
 
 def send_message(recipient_id, message_text):
 
