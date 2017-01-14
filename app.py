@@ -53,7 +53,7 @@ def webhook():
 
 def handle_message(sender_id, message_text):
     # we can add parsing and logic and task here
-    send_message(sender_id, message_text + 'master')
+    send_message(sender_id, message_text + ' daddy <3')
 
 def send_message(recipient_id, message_text):
 
