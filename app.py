@@ -132,7 +132,7 @@ def get_state(sender_id):
             with open('STATE.json') as data_file:    
                 history = json.load(data_file)
         except:
-            history = None
+            history = {}
 
     if sender_id in history:
         current_time = time.time()
