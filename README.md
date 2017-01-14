@@ -1,7 +1,7 @@
 # Jane
 a facebook chat bot capable of incredible things
 
-
+# Authors
 
 ### Set Up
 * install dependencies with
