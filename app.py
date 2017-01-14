@@ -4,7 +4,7 @@ import json
 
 import requests
 from flask import Flask, request
-from weather import weather
+from weather import Weather
 
 app = Flask(__name__)
 
@@ -72,7 +72,7 @@ def handle_message(sender_id, message_text):
         return;
     if ("weather" in message_as_string):
         #weather_text = "In which city?"
-        w = weather("Worcester,us")
+        w = Weather("Boston,us")
         temp = w.temp
         weather_text = "The temperature is" + temp
         send_message(sender_id, weather_text)
