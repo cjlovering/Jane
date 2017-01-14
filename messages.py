@@ -17,7 +17,7 @@ def log(message):  # simple wrapper for logging to stdout on heroku
 
 def msg_wait(recipient_id):
 
-    log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
+    log("sending message to {recipient}".format(recipient=recipient_id))
 
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]

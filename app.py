@@ -109,7 +109,7 @@ def handle_message(sender_id, message_text):
         state, message_out = handle_rps(state, sender_id, message_as_string)
     elif PICTURE in message_as_string or state is not None and state == STORY:
         msg_wait(sender_id)
-        state = send_image(sender_id , getURL(message_as_string))
+        send_image(sender_id , getURL(message_as_string))
     elif WEATHER in message_as_string or state is not None and state == WEATHER:
         state, message_out,  description = handle_weather(state, message_as_string)
         send_message(sender_id, message_out)
@@ -141,7 +141,7 @@ def get_state(sender_id):
     """
     global history
     if history is None:
-        try :
+        try:
             with open('STATE.json') as data_file:
                 history = json.load(data_file)
                 log("OPENED state file : {0}".format(history))
