@@ -71,7 +71,7 @@ def handle_message(sender_id, message_text):
         send_image(sender_id)
         return;
     elif("rps" in message_as_string):
-        userThrow = input("Let's play!  Prepare yourself.")
+        userThrow = str(input("Let's play!  Prepare yourself."))
         resp = play_rps(userThrow)
         send_message(sender_id, resp)
         return;
