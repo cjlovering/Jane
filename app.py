@@ -124,7 +124,7 @@ def handle_message(sender_id, message_text):
 
     # store current information
     # update_state(sender_id, state, user_info, message_in, message_out)
-    log("sender_id  {0} , state {1}" , sender_id , state)
+    log("sender_id  {0} , state {1}".format(  sender_id , state))
     update_state(sender_id, state, user_info, message_as_string , message_out)
 
 
