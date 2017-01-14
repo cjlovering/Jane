@@ -39,7 +39,7 @@ def handle_coin_flip(recipient_id ,  message_in):
             return COINFLIP , "Invalid option, pick Heads or Tails"
         else:
             result = flip_coin(recipient_id)
-            if(result equals choice):
+            if(result == choice):
                 return None , "You Win! Luckerdog"
             else :
                 return None, "Loser! Low effort.."
