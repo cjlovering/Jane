@@ -217,9 +217,9 @@ def play_rps(userThrow):
         else:
             return "You and Jane are equally matched in the art of the blade."
     elif val == 1:
-        if userVal == 0:
+        if userVal == 1:
             return "You place a napkin on Jane's boulder.  You feel a sense of accomplishment."
-        elif userVal == 1:
+        elif userVal == 2:
             return "You assail Jane's paper wih a pair of wicked blades.  How contemptible."
         else:
             return "Jane's scissors break upon your rocks."
