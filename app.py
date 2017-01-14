@@ -42,7 +42,7 @@ def webhook():
                         message_text = "BAD VALUE"
 
                     try:
-                        message_text.encode('utf-8')
+                        message_text.decode('utf-8')
                     except UnicodeError:
                         print "string is not UTF-8"
                         message_text = "NON UNICODE"
