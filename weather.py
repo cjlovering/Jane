@@ -59,6 +59,6 @@ def handle_weather(state, message_in):
         state = None
         temp = w.temp
         description = w.description
-        message_out = "The temperature is " + temp + "F, " + description +"."
+        message_out = "The temperature is {0}F, {1}.".format(temp, description)
 
     return state, message_out
