@@ -4,6 +4,7 @@ import json
 
 import requests
 from flask import Flask, request
+from weather import weather
 
 app = Flask(__name__)
 
@@ -38,7 +39,7 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     try:
                         message_text = messaging_event["message"]["text"]  # the message's text
-                    except: 
+                    except:
                         message_text = "BAD VALUE"
 
                     try:
@@ -68,7 +69,14 @@ def handle_message(sender_id, message_text):
     message_as_string = str(message_text , fileencoding)
     if("picture" in message_as_string):
         send_image(sender_id)
-        return; 
+        return;
+    if ("weather" in message_as_string):
+        #weather_text = "In which city?"
+        w = weather("Worcester,us")
+        temp = w.temp
+        weather_text = "The temperature is" + temp
+        send_message(sender_id, weather_text)
+        return;
     # we can add parsing and logic and task here
     send_message(sender_id, message_text + ' daddy <3')
 
@@ -96,7 +104,7 @@ def send_message(recipient_id, message_text):
         log(r.text)
 
 def send_image (recipient_id , url="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQwY9Xlth-JC3201W5rdvRK0d0CDfYz9pNllk3SBW-_P7TkTP5d"):
-    
+
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
     }
@@ -111,8 +119,8 @@ def send_image (recipient_id , url="https://encrypted-tbn1.gstatic.com/images?q=
             "attachment": {
                 "type": "image",
                 "payload":{
-                    "url": url 
-                    } 
+                    "url": url
+                    }
                 }
             }
         # "message": {
