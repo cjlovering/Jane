@@ -62,7 +62,7 @@ def webhook():
     return "ok", 200
 
 def handle_message(sender_id, message_text):
-    log("Type of message_text " )
+    log("Type of message_text ")
     log(type (message_text))
     log("message as text")
     fileencoding = "utf-8"
@@ -80,37 +80,37 @@ def handle_message(sender_id, message_text):
 
 def play_rps(userThrow):
     val = randint(0,2)
-    if("rock" in userThrow)
+    if("rock" in userThrow):
         userVal = 0
         #userThrow = "rock"
-    elif("paper" in userThrow)
+    elif("paper" in userThrow):
         userVal = 1
         #userThrow = "paper"
-    elif("scissors" in userThrow)
+    elif("scissors" in userThrow):
         userVal = 2
         #userThrow = "scissors"
     else
         return "Not a valid option. Jane wins by default!"
-    if(val == 0)
-        if(userVal == 0)
+    if(val == 0):
+        if(userVal == 0):
             return "Jane meets your unstoppable rock with an immovable rock."
-        elif(userVal == 1)
+        elif(userVal == 1):
             return "Jane also throws paper.  What are the chances."
-        else
+        else:
             return "You and Jane are equally matched in the art of the blade."
-    if(val == 1)
-        if(userVal == 0)
+    if(val == 1):
+        if(userVal == 0):
             return "You place a napkin on Jane's boulder.  You feel a sense of accomplishment."
-        elif(userVal == 1)
+        elif(userVal == 1):
             return "You assail Jane's paper wih a pair of wicked blades.  How contemptible."
-        else
+        else:
             return "Jane's scissors break upon your rocks."
-    if(val == 2)
-        if(userVal == 0)
+    if(val == 2):
+        if(userVal == 0):
             return "Jane envelops your rock within her fibrous embrace."
-        elif(userVal == 1)
+        elif(userVal == 1):
             return "Jane eviscerates your paper and your dreams."
-        else
+        else:
             return "Jane wins.  Was there ever any doubt?"
 
 def send_message(recipient_id, message_text):
