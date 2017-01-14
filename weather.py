@@ -50,7 +50,7 @@ def handle_weather(state, message_in):
         city = message_in
 
     #parse city potentially
-    w = Weather(city)
+    w = Weather(city, None)
     success = w.request_weather()
 
     if not success:
@@ -60,6 +60,6 @@ def handle_weather(state, message_in):
         state = None
         temp = w.temp
         description = w.description
-        message_out = "The temperature is " + temp + "F, " + description +"."
+        message_out = "The temperature is {0}F, {1}.".format(temp, description)
 
     return state, message_out , description
