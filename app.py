@@ -8,8 +8,13 @@ from random import randint
 from flask import Flask, request
 
 from weather import handle_weather
+<<<<<<< HEAD
 from story import handle_story
 from image_search import *
+=======
+from ImageSearch import *
+from messages import *
+>>>>>>> ea73446694437cc585d7e8505d86dad433fb3cf8
 from constants import *
 
 
@@ -69,11 +74,11 @@ def webhook():
 
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
                     pass
-
+    
     return "ok", 200
 
 def handle_message(sender_id, message_text):
-    message_out ="" 
+    message_out = "" 
     message_as_string = str(message_text)
 
     connected, new, state, user_info, messages = get_state(sender_id)
@@ -103,13 +108,19 @@ def handle_message(sender_id, message_text):
 
     if STORY in message_as_string or state is not None and state[0] == STORY:
         pass
+    elif RPS in message_as_string or state is not None and state[0] == RPS:
+        state, message_out = handle_rps(state, sender_id, message_as_string)
     elif PICTURE in message_as_string or state is not None and state[0] == STORY:
         state = send_image(sender_id , getURL(message_as_string))
     elif WEATHER in message_as_string or state is not None and state[0] == WEATHER:
-        state, message_out = handle_weather(state, message_as_string)
+        state, message_out,  description = handle_weather(state, message_as_string)
         send_message(sender_id, message_out)
-    elif RPS in message_as_string or state is not None and state[0] == RPS:
-        state, message_out = handle_rps(state, message_as_string)
+        if description is not None:
+            log("Description is not None, Sending image :  {0}".format(description))
+            send_image(sender_id , getURL("weather " + description))
+
+
+
     else:
         # generic reponse
         message_out = message_text + ' daddy <3'
@@ -129,7 +140,12 @@ def get_state(sender_id):
     """
     global history
     if history is None:
-        history = {}
+        try :
+            with open('STATE.json') as data_file:    
+                history = json.load(data_file)
+                log("OPENED state file : {0}".format(history))
+        except:
+            history = {}
 
     if sender_id in history:
         current_time = time.time()
@@ -149,6 +165,9 @@ def update_state(sender_id, state, user_info, message_in, message_out):
     global history
     time_stamp = time.time()
     history[sender_id] = (time_stamp, state, user_info, (message_in, message_out))
+    with open('STATE.json', 'w') as outfile:
+            json.dump(history , outfile)
+            log("WRITE state file : {0}".format(history))
 
 def get_user_info(target_id):
     params = {
@@ -169,11 +188,12 @@ def get_user_info(target_id):
             data = {}
         return data
 
-def handle_rps(state, message_in):
+def handle_rps(state, sender_id, message_in):
     if state is None:
         message_out = "Let's play! Prepare yourself."
         send_message(sender_id, message_out)
         return (('!rps'), message_out)
+
     else:
         message_out = play_rps(message_in)
         send_message(sender_id, message_out)
@@ -214,57 +234,6 @@ def play_rps(userThrow):
         else:
             return "Jane wins.  Was there ever any doubt?"
 
-def send_message(recipient_id, message_text):
-
-    log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
-
-    params = {
-        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
-    }
-    headers = {
-        "Content-Type": "application/json"
-    }
-    data = json.dumps({
-        "recipient": {
-            "id": recipient_id
-        },
-        "message": {
-            "text": message_text
-        }
-    })
-    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
-    if r.status_code != 200:
-        log(r.status_code)
-        log(r.text)
-
-def send_image (recipient_id , url="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQwY9Xlth-JC3201W5rdvRK0d0CDfYz9pNllk3SBW-_P7TkTP5d"):
-
-    params = {
-        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
-    }
-    headers = {
-        "Content-Type": "application/json"
-    }
-    data = json.dumps({
-        "recipient": {
-            "id": recipient_id
-        },
-        "message": {
-            "attachment": {
-                "type": "image",
-                "payload":{
-                    "url": url
-                    }
-                }
-            }
-        # "message": {
-            # "text": message_text
-        # }
-    })
-    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
-    if r.status_code != 200:
-        log(r.status_code)
-        log(r.text)
 
 def log(message):  # simple wrapper for logging to stdout on heroku
     print str(message)
