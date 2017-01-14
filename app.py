@@ -106,7 +106,9 @@ def handle_message(sender_id, message_text):
         state, message_out,  description = handle_weather(state, message_as_string)
         send_message(sender_id, message_out)
         if description is not None:
+            log("Description is not None, Sending image :  {0}".format(description))
             send_image(sender_id , description)
+
 
     elif RPS in message_as_string or state is not None and state[0] == RPS:
         state, message_out = handle_rps(state, message_as_string)
