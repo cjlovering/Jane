@@ -11,7 +11,6 @@ class Weather:
         self.temp_max = 0
         self.description = ""
 
-
     def get_temp(self,temp_c):
         temp_f = temp_c * 1.8 + 32
         if UNIT == 'C':
