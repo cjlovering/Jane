@@ -104,7 +104,7 @@ def handle_message(sender_id, message_text):
     elif PICTURE in message_as_string or state is not None and state[0] == STORY:
         state = send_image(sender_id , getURL(message_as_string))
     elif WEATHER in message_as_string or state is not None and state[0] == WEATHER:
-        state, message_out = handle_weather(message_as_string)
+        state, message_out = handle_weather(state, message_as_string)
         send_message(sender_id, message_out)
     elif RPS in message_as_string or state is not None and state[0] == RPS:
         state, message_out = handle_rps(state, message_as_string)
