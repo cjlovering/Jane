@@ -29,9 +29,6 @@ def msg_wait(recipient_id):
         "recipient": {
             "id": recipient_id
         },
-        "message": {
-            "text": message_text
-        },
         "sender_action":"typing_on"
     })
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
@@ -60,7 +57,8 @@ def send_message(recipient_id, message_text):
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
     if r.status_code != 200:
         log(r.status_code)
-        log(r.text
+        log(r.text)
+    
 
 def send_image (recipient_id , url="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQwY9Xlth-JC3201W5rdvRK0d0CDfYz9pNllk3SBW-_P7TkTP5d"):
 
