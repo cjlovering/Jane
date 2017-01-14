@@ -75,6 +75,7 @@ def handle_message(sender_id, message_text):
         w = Weather("Boston,us")
         w.request_weather()
         temp = w.temp
+        description = w.description
         weather_text = "The temperature is " + str(temp) + "F." + description + "."
         send_message(sender_id, weather_text)
         return;
