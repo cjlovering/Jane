@@ -20,6 +20,7 @@ history = None
 session_length = 150  # 2 1/2 min
 
 
+
 @app.route('/', methods=['GET'])
 def verify():
     # when the endpoint is registered as a webhook, it must echo back
@@ -34,7 +35,7 @@ def verify():
 def webhook():
 
     # endpoint for processing incoming messaging events
-
+    random.seed()
     data = request.get_json()
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
 
