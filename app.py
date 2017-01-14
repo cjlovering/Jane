@@ -61,6 +61,8 @@ def webhook():
     return "ok", 200
 
 def handle_message(sender_id, message_text):
+    log("Type of message_text " )
+    log(type (message_text))
     # we can add parsing and logic and task here
     send_message(sender_id, message_text + ' daddy <3')
 
@@ -79,21 +81,42 @@ def send_message(recipient_id, message_text):
             "id": recipient_id
         },
         "message": {
-            "attachment": {
-                "type": "image",
-                "payload":{
-                    "url": "https://petersapparel.parseapp.com/img/shirt.png" 
-                    } 
-                }
-            }
-        # "message": {
-            # "text": message_text
-        # }
+            "text": message_text
+        }
     })
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
+
+def send_image (recipient_id , url="https://petersapparel.parseapp.com/img/shirt.png"):
+
+    log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
+
+    params = {
+        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+    data = json.dumps({
+        "recipient": {
+            "id": recipient_id
+        },
+        "message": {
+            "attachment": {
+                "type": "image",
+                "payload":{
+                    "url": url 
+                    } 
+                }
+            }
+    })
+    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
+    if r.status_code != 200:
+        log(r.status_code)
+        log(r.text)
+
 
 
 def log(message):  # simple wrapper for logging to stdout on heroku
