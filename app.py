@@ -13,7 +13,7 @@ from story import handle_story
 from image_search import *
 from messages import *
 from constants import *
-from flip_coin import *
+from coin_flip import *
 
 
 
