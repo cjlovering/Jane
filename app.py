@@ -66,7 +66,7 @@ def handle_message(sender_id, message_text):
     log("message as text")
     fileencoding = "utf-8"
     message_as_string = str(unicode(message_text , fileencoding))
-    if(message_as_string.contains("picture")):
+    if("picture" in message_as_string):
         send_image(recipient_id)
         return; 
     # we can add parsing and logic and task here
