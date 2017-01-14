@@ -2,7 +2,7 @@ import requests
 
 class Weather:
     def __init__(self, city, unit):
-        self.city = city if city else "Boston,us"
+        self.city = city 
         self.temp = 0
         self.temp_min = 0
         self.temp_max = 0
@@ -36,6 +36,7 @@ class Weather:
 
 def handle_weather(state, message_in):
 
+    description = None
     if state is None:
         # new
         # first parse for the city
@@ -61,4 +62,4 @@ def handle_weather(state, message_in):
         description = w.description
         message_out = "The temperature is " + temp + "F, " + description +"."
 
-    return state, message_out
+    return state, message_out , description
