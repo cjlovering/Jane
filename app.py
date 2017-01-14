@@ -4,6 +4,7 @@ import json
 import requests
 import time
 
+import random
 from random import randint
 from flask import Flask, request
 
@@ -21,6 +22,7 @@ history = None
 session_length = 150  # 2 1/2 min
 
 
+
 @app.route('/', methods=['GET'])
 def verify():
     # when the endpoint is registered as a webhook, it must echo back
@@ -35,7 +37,7 @@ def verify():
 def webhook():
 
     # endpoint for processing incoming messaging events
-
+    random.seed()
     data = request.get_json()
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
 
@@ -221,9 +223,9 @@ def play_rps(userThrow):
         else:
             return "You and Jane are equally matched in the art of the blade."
     elif val == 1:
-        if userVal == 0:
+        if userVal == 1:
             return "You place a napkin on Jane's boulder.  You feel a sense of accomplishment."
-        elif userVal == 1:
+        elif userVal == 2:
             return "You assail Jane's paper wih a pair of wicked blades.  How contemptible."
         else:
             return "Jane's scissors break upon your rocks."
