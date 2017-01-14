@@ -70,7 +70,7 @@ def handle_message(sender_id, message_text):
     if("picture" in message_as_string):
         send_image(sender_id)
         return;
-    else if("!rps" in message_as_string):
+    else if("rps" in message_as_string):
         userThrow = input("Let's play!  Prepare yourself.")
         resp = play_rps(userThrow)
         send_message(sender_id, resp)
