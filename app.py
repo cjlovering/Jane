@@ -173,7 +173,7 @@ def handle_rps(state, message_in):
     if state is None:
         message_out = "Let's play! Prepare yourself."
         send_message(sender_id, message_out)
-        return ('rps', message_out)
+        return (('!rps'), message_out)
     else:
         message_out = play_rps(message_in)
         send_message(sender_id, message_out)
