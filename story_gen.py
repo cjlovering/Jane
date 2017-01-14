@@ -7,7 +7,7 @@ from keras.layers import LSTM
 from keras.callbacks import ModelCheckpoint
 from keras.utils import np_utils
 
-def gen_story(message_in=""):
+def story_gen(message_in=""):
 	# load ascii text and covert to lowercase
 	filename = "wonderland.txt"
 	raw_text = open(filename).read()
