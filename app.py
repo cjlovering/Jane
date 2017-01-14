@@ -79,6 +79,7 @@ def handle_message(sender_id, message_text):
     if user_info is None:
         user_info = get_user_info(sender_id)
 
+
     if not connected:
         # if not connected, respond!
         if new:
@@ -147,10 +148,11 @@ def get_user_info(target_id):
         "fields": "first_name,last_name,profile_pic,locale,timezone,gender"
     }
     url = "https://graph.facebook.com/v2.6/<{0}>".format(target_id)
-    r = requests.get(url, params=params)
+    r = await requests.get(url, params=params)
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
+        return {}
     else:
         data = None
         try:
