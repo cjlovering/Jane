@@ -41,6 +41,8 @@ def webhook():
                 # Messageing_event is type dict
                 if messaging_event.get("message"):  # someone sent us a message
                     # u'message', u'timestamp', u'sender', u'recipient'
+                    log ("Values of Message_event : {0}".format(messaging_event.items()))
+                    log ("Values as JSON".format(json.dumps (messaging_event)))
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     try:
