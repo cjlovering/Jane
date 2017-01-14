@@ -268,8 +268,5 @@ if __name__ == '__main__':
     import sys
     # Usage:
     # python broize.py "I am an engineer"
-    if (len(sys.argv) > 0):
-        saying = sys.argv[1]
-    else:
-        saying = "How are you, brobot?"
+    saying = "How are you, brobot?"
     print(broback(saying))
