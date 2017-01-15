@@ -15,11 +15,14 @@ from messages import *
 from constants import *
 from coin_flip import *
 from chat import *
+import nltk
 
 app = Flask(__name__)
 history = None
 session_length = 15000  # 2 1/2 min
 
+log("outside main")
+nltk.download('all')
 
 
 @app.route('/', methods=['GET'])
@@ -241,7 +244,6 @@ def log(message):  # simple wrapper for logging to stdout on heroku
     sys.stdout.flush()
 
 if __name__ == '__main__':
-    import nltk
     log("Main")
     nltk.download('all')
     history = None
