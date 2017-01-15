@@ -3,8 +3,6 @@ from image_search import *
 import random
 from story_gen import story_gen, get_sequence
 
-
-
 def handle_story(state, sender_id, message_in):
     # pattern, model, int_to_char, n_vocab, n_chars = story_gen()
     # log("Finished building model...")
@@ -12,6 +10,7 @@ def handle_story(state, sender_id, message_in):
     potential = ["Let me think...", "I've got a good one...", "I made this one up myself...", "This happened a long time ago..."]
     send_message(sender_id, potential[random.randint(0,3)])
     msg_wait(sender_id)
+
     with open('stories.json') as data_file:
         stories = json.load(data_file)
         choice = stories[random.randint(0, len(stories) -1 )]
@@ -19,11 +18,12 @@ def handle_story(state, sender_id, message_in):
         for segment in choice:        
             send_message(sender_id, segment)
             msg_wait(sender_id)
+            
+            if random.random() > 0.6:
+                mode = get_most_common_word(segment)
+                send_image(sender_id, getURL(mode))
+            
             time.sleep(4)
-            mode = get_most_common_word(segment)
-            log(mode)
-            send_image(sender_id, getURL(mode))
-
 
 def get_most_common_word(stream):
     words = stream.split()

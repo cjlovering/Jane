@@ -114,6 +114,8 @@ def handle_message(sender_id, message_text):
         send_help(sender_id)
     elif STORY in message_as_string or state is not None and state == STORY:
         handle_story(state,  sender_id, message_as_string )
+        state = None
+        message_out = ""
     elif RPS in message_as_string or state is not None and state == RPS:
         state, message_out = handle_rps(state, sender_id, message_as_string)
     elif PICTURE in message_as_string or state is not None and state == STORY:
