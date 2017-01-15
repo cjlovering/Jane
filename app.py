@@ -104,7 +104,7 @@ def handle_message(sender_id, message_text):
                 message_out = "Great to see you again!"
                 send_message(sender_id, message_out)
 
-    if "help" in message_as_string.lowercase():
+    if "help" in message_as_string.lower():
         send_help()
     elif STORY in message_as_string or state is not None and state == STORY:
         pass
