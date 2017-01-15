@@ -16,10 +16,10 @@ def handle_story(state, sender_id, message_in):
         choice = stories[random.randint(0, len(stories))]
         
         for segment in choice:        
-            send_message(sender_id, segement)
+            send_message(sender_id, segment)
             msg_wait(sender_id)
             
-            mode = get_most_common_word(segement)
+            mode = get_most_common_word(segment)
             send_image(sender_id, mode)
 
 
