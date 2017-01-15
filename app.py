@@ -265,6 +265,5 @@ def send_help(recipient_id):
 
 if __name__ == '__main__':
     log("Main")
-    nltk.download('all')
     history = None
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5001 , debug=True)
