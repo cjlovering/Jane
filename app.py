@@ -131,7 +131,7 @@ def handle_message(sender_id, message_text):
         send_message(sender_id, handle_transl(message_as_string.replace(QUERY, ''), 'el'))
     elif CALL in message_as_string and state is None:
         send_message(sender_id, "Sure, bae <3")
-        state, message_out = handle_call(state, message_at_string)
+        state, message_out = handle_call(state, message_as_string)
         send_message(sender_id, message_out)
 
     else:
