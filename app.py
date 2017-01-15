@@ -18,7 +18,7 @@ from chat import *
 
 app = Flask(__name__)
 history = None
-session_length = 150  # 2 1/2 min
+session_length = 15000  # 2 1/2 min
 
 
 
@@ -241,5 +241,7 @@ def log(message):  # simple wrapper for logging to stdout on heroku
     sys.stdout.flush()
 
 if __name__ == '__main__':
+    expr = "python -m textblob.download_corpora"
+    exec(expr)
     history = None
     app.run(debug=True)
