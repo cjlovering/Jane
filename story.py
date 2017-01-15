@@ -1,6 +1,6 @@
 from messages import *
 import random
-from story_gen import story_gen
+from story_gen import story_gen, get_sequence
 
 pattern, model, int_to_char, n_vocab, n_chars = story_gen()
 
