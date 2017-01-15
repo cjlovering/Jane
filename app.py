@@ -19,10 +19,7 @@ import nltk
 
 app = Flask(__name__)
 history = None
-session_length = 15000  # 2 1/2 min
-
-log("outside main")
-nltk.download('all')
+session_length = 150  # 2 1/2 min
 
 
 @app.route('/', methods=['GET'])
