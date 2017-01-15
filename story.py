@@ -16,7 +16,7 @@ def handle_story(state, sender_id, message_in):
         choice = stories[random.randint(0, len(stories))]
         
         for segment in choice:        
-            send_message(sender_id, message)
+            send_message(sender_id, segement)
             msg_wait(sender_id)
             
             mode = get_most_common_word(segement)
@@ -25,10 +25,21 @@ def handle_story(state, sender_id, message_in):
 
 def get_most_common_word(stream):
     words = stream.split()
+    counts = {}
     for w in words:
-        if w != 'the' and w != 'a':
-            return w
+        if len(w) > 3:
+            if w in counts:
+                counts[w] += 1
+            else:
+                counts[w] = 1
     
+    word, count = "", -1
+    for key, value in counts.iteritems():
+        if value > count:
+            word, count = key, value
+            
+
+    return word
 
             
             
