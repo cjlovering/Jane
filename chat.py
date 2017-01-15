@@ -30,20 +30,24 @@ def check_for_greeting(sentence):
 # Sentences we'll respond with if we have no idea what the user just said
 NONE_RESPONSES = [
     "uh whatever",
-    "meet me at the foosball table, bro?",
-    "code hard bro",
+    # "meet me at the foosball table, bro?",
+    "Why?"
+    # "code hard bro",
     "want to bro down and crush code?",
-    "I'd like to add you to my professional network on LinkedIn",
-    "Have you closed your seed round, dog?",
+    # "I'd like to add you to my professional network on LinkedIn",
+    "I can't even"
+    "I can't believe you said that..."
+    # "Have you closed your seed round, dog?",
 ]
 # end
 
 # start:example-self.py
 # If the user tries to tell us something about ourselves, use one of these responses
 COMMENTS_ABOUT_SELF = [
-    "You're just jealous",
+    "You're just jealous of my looks",
     "I worked really hard on that",
     "My Klout score is {}".format(random.randint(100, 500)),
+    "Low energy..."
 ]
 # end
 
@@ -142,7 +146,9 @@ def construct_response(pronoun, noun, verb):
         pronoun = "an" if starts_with_vowel(noun) else "a"
         resp.append(pronoun + " " + noun)
 
-    resp.append(random.choice(("tho", "bro", "lol", "bruh", "smh", "")))
+    # resp.append(random.choice(("tho", "bro", "lol", "bruh", "smh", "")))
+    resp.append(random.choice(("sister", "girly", "m'lady", "cats",  "")))
+
 
     return " ".join(resp)
 # end
@@ -173,7 +179,8 @@ SELF_VERBS_WITH_NOUN_CAPS_PLURAL = [
 
 SELF_VERBS_WITH_NOUN_LOWER = [
     "Yeah but I know a lot about {noun}",
-    "My bros always ask me about {noun}",
+    # "My bros always ask me about {noun}",
+    "My girls always as me about {noun}"
 ]
 
 SELF_VERBS_WITH_ADJECTIVE = [
@@ -268,5 +275,6 @@ if __name__ == '__main__':
     import sys
     # Usage:
     # python broize.py "I am an engineer"
-    saying = "How are you, brobot?"
+    # saying = "How are you, brobot?"
+    saying = "Hey girlllllllllll, how are things?"
     print(broback(saying))
