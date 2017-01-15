@@ -104,8 +104,8 @@ def handle_message(sender_id, message_text):
                 message_out = "Great to see you again!"
                 send_message(sender_id, message_out)
 
-    if "help" in message_as_string.lowercase():
-        send_help()
+    if "help" in message_as_string.lower():
+        send_help(sender_id)
     elif STORY in message_as_string or state is not None and state == STORY:
         pass
     elif RPS in message_as_string or state is not None and state == RPS:
