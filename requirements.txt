@@ -9,6 +9,7 @@ requests==2.10.0
 wsgiref==0.1.2
 py-ms-cognitive
 numpy
+h5py
 keras
 tensorflow
 tweepy
