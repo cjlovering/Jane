@@ -5,6 +5,7 @@ dict = {'english': 'en', 'spanish': 'es', 'italian': 'it', 'greek': 'el', 'russi
 def handle_transl(message_in):
     phrase = []
     phrase = message_in.split(" in ")
+    words = None
     if "translate" in phrase:
         # delete
         words = phrase[0].replace("translate","")
@@ -13,3 +14,5 @@ def handle_transl(message_in):
     tstring = (translate.translate(words, target))['text']
     print tstring[0].encode('utf-8')
     return tstring[0].encode('utf-8')
+
+handle_transl("translate cat in spanish")
