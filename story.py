@@ -18,8 +18,9 @@ def handle_story(state, sender_id, message_in):
         for segment in choice:        
             send_message(sender_id, segment)
             msg_wait(sender_id)
-            
+            time.wait(3)
             mode = get_most_common_word(segment)
+            log(mode)
             send_image(sender_id, mode)
 
 
