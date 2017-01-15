@@ -13,3 +13,4 @@ keras
 tensorflow
 tweepy
 textblob
+h5py

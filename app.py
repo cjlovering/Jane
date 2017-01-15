@@ -103,7 +103,9 @@ def handle_message(sender_id, message_text):
                 message_out = "Great to see you again!"
                 send_message(sender_id, message_out)
 
-    if STORY in message_as_string or state is not None and state == STORY:
+    if "help" in message_as_string.lowercase():
+        send_help()
+    elif STORY in message_as_string or state is not None and state == STORY:
         pass
     elif RPS in message_as_string or state is not None and state == RPS:
         state, message_out = handle_rps(state, sender_id, message_as_string)
@@ -238,9 +240,17 @@ def play_rps(userThrow):
             return "Jane wins.  Was there ever any doubt?"
 
 
-def log(message):  # simple wrapper for logging to stdout on heroku
-    print str(message)
-    sys.stdout.flush()
+def send_help(recipient_id):
+    send_message(recipient_id , "Hello! Thank you for talking to me! I am Jane\n")
+    send_message(recipient_id , "You can ask me a number of things such as:\n" + \
+            "\t1) What is the weather like in Boston" + \
+            "\t2) What is a hippo?" + \
+            "\t3) Picture of the sky")
+    send_message(recipient_id , "Bonus!!\nTry !flip or !rps to play a game!")
+
+
+
+
 
 if __name__ == '__main__':
     log("Main")
