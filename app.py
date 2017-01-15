@@ -15,6 +15,7 @@ from messages import *
 from constants import *
 from coin_flip import *
 from chat import *
+from translate import *
 import nltk
 
 app = Flask(__name__)
@@ -122,6 +123,9 @@ def handle_message(sender_id, message_text):
     elif QUERY in message_as_string and state is None:
         msg_wait(sender_id)
         send_image(sender_id, getFirstURL(message_as_string.replace(QUERY, '')))
+    elif TRANS_SP in message_as_string and state is None:
+        msg_wait(sender_id)
+        send_message(sender_id, handle_transl(state, message_in, 'el'))
 
     else:
         # generic reponse
