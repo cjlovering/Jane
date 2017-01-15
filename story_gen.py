@@ -47,9 +47,7 @@ def story_gen(message_in=""):
 	# define the LSTM model model = Sequential()
 	model = Sequential()
 	model.add(LSTM(256, input_shape=(X.shape[1], X.shape[2]), return_sequences=True))
-	model.add(Dropout(0.2))
 	model.add(LSTM(256))
-	model.add(Dropout(0.2))
 	model.add(Dense(y.shape[1], activation='softmax'))
 
 	# load the network weights
@@ -61,21 +59,34 @@ def story_gen(message_in=""):
 	start = numpy.random.randint(0, len(dataX)-1)
 	pattern = dataX[start]
 	# pattern.append(message_in)
+
+        return pattern, model, int_to_char, n_vocab, n_chars 
+
+        
 	
-	results = []
 
-	# generate characters
-	for i in range(500):
-		x = numpy.reshape(pattern, (1, len(pattern), 1))
-		x = numpy.divide(x, n_vocab * 1.0)
-		prediction = model.predict(x, verbose=0)
-		index = numpy.argmax(prediction)
-		result = int_to_char[index]
-		seq_in = [int_to_char[value] for value in pattern]
-		results.append(result)
-		pattern.append(index)
-		pattern = pattern[1:len(pattern)]
 
-	return results
+        
+def get_sequence(pattern, model,int_to_char, n_vocab, n_chars):
+    results = []
+    # generate 
+    for i in range(100):
+	x = numpy.reshape(pattern, (1, len(pattern), 1))
+	x = numpy.divide(x, n_vocab * 1.0)
+	prediction = model.predict(x, verbose=0)
+	index = numpy.argmax(prediction)
+	result = int_to_char[index]
+	seq_in = [int_to_char[value] for value in pattern]
+	results.append(result)
+	pattern.append(index)
+	pattern = pattern[1:len(pattern)]
+
+    return pattern, results
+
 if __name__ == '__main__':
-	print "".join(story_gen("hello"))
+    pattern, model, int_to_char, n_vocab, n_chars= story_gen()
+    print "Starting...\n\n"
+    for i in range(3):
+        pattern , result = get_sequence(pattern, model, int_to_char, n_vocab, n_chars)
+        print "".join(result)
+	# print "".join(story_gen("hello"))
