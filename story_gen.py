@@ -44,8 +44,7 @@ def story_gen(message_in=""):
 	# one hot encode the output variable
 	y = np_utils.to_categorical(dataY)
 
-	# define the LSTM model
-	model = Sequential()
+	# define the LSTM model model = Sequential()
 	model.add(LSTM(256, input_shape=(X.shape[1], X.shape[2]), return_sequences=True))
 	model.add(Dropout(0.2))
 	model.add(LSTM(256))
@@ -78,4 +77,4 @@ def story_gen(message_in=""):
 
 	return results
 
-print "".join(story_gen("hello"))
+#print "".join(story_gen("hello"))
