@@ -1,4 +1,5 @@
 from messages import *
+from image_search import *
 import random
 from story_gen import story_gen, get_sequence
 
@@ -21,7 +22,7 @@ def handle_story(state, sender_id, message_in):
             time.sleep(4)
             mode = get_most_common_word(segment)
             log(mode)
-            send_image(sender_id, mode)
+            send_image(sender_id, getURL(mode))
 
 
 def get_most_common_word(stream):
