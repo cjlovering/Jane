@@ -33,7 +33,7 @@ NONE_RESPONSES = [
     # "meet me at the foosball table, bro?",
     "Why?"
     # "code hard bro",
-    "want to bro down and crush code?",
+    "Want to bro down and crush code?",
     # "I'd like to add you to my professional network on LinkedIn",
     "I can't even"
     "I can't believe you said that..."

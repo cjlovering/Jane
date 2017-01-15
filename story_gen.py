@@ -45,6 +45,7 @@ def story_gen(message_in=""):
 	y = np_utils.to_categorical(dataY)
 
 	# define the LSTM model model = Sequential()
+	model = Sequential()
 	model.add(LSTM(256, input_shape=(X.shape[1], X.shape[2]), return_sequences=True))
 	model.add(Dropout(0.2))
 	model.add(LSTM(256))
@@ -76,5 +77,5 @@ def story_gen(message_in=""):
 		pattern = pattern[1:len(pattern)]
 
 	return results
-
-#print "".join(story_gen("hello"))
+if __name__ == '__main__':
+	print "".join(story_gen("hello"))
