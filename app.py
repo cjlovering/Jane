@@ -20,7 +20,7 @@ import nltk
 
 app = Flask(__name__)
 history = None
-session_length = 15 # 2 1/2 min
+session_length = 150 # 2 1/2 min
 
 
 @app.route('/', methods=['GET'])
