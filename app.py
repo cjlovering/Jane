@@ -131,7 +131,7 @@ def handle_message(sender_id, message_text):
         send_image(sender_id, getFirstURL(message_as_string.replace(QUERY, '')))
     elif TRANS_EL in message_as_string and state is None:
         msg_wait(sender_id)
-        message_out = handle_transl(message_as_string.replace(QUERY, ''))
+        message_out = handle_transl(message_as_string.replace(TRANS_EL, ''))
         send_message(sender_id, message_out)
     elif CALL in message_as_string and state is None:
         send_message(sender_id, "Sure, bae <3")
