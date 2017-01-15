@@ -152,7 +152,7 @@ def get_state(sender_id):
         current_time = time.time()
         time_stamp, state, user_info, messages = history[sender_id]
 
-        if time_stamp - current_time < session_length:
+        if current_time - int(time_stamp) < session_length:
             # user is in a current session
             return True, False, state, user_info, messages
         else:
@@ -241,7 +241,7 @@ def log(message):  # simple wrapper for logging to stdout on heroku
     sys.stdout.flush()
 
 if __name__ == '__main__':
-    expr = "python -m textblob.download_corpora"
-    exec(expr)
+    import nltk
+    nltk.download()
     history = None
     app.run(debug=True)
