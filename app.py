@@ -14,13 +14,12 @@ from image_search import *
 from messages import *
 from constants import *
 from coin_flip import *
-
-
+from chat import *
+import nltk
 
 app = Flask(__name__)
 history = None
 session_length = 150  # 2 1/2 min
-
 
 
 @app.route('/', methods=['GET'])
@@ -73,11 +72,11 @@ def webhook():
 
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
                     pass
-    
+
     return "ok", 200
 
 def handle_message(sender_id, message_text):
-    message_out = "" 
+    message_out = ""
     message_as_string = str(message_text)
 
     connected, new, state, user_info, messages = get_state(sender_id)
@@ -104,28 +103,29 @@ def handle_message(sender_id, message_text):
                 message_out = "Great to see you again!"
                 send_message(sender_id, message_out)
 
-
     if STORY in message_as_string or state is not None and state == STORY:
         pass
     elif RPS in message_as_string or state is not None and state == RPS:
         state, message_out = handle_rps(state, sender_id, message_as_string)
     elif PICTURE in message_as_string or state is not None and state == STORY:
-        state = send_image(sender_id , getURL(message_as_string))
+        msg_wait(sender_id)
+        send_image(sender_id , getURL(message_as_string))
     elif WEATHER in message_as_string or state is not None and state == WEATHER:
         state, message_out,  description = handle_weather(state, message_as_string)
         send_message(sender_id, message_out)
         if description is not None:
             log("Description is not None, Sending image :  {0}".format(description))
             send_image(sender_id , getURL("weather " + description))
-    elif COINFLIP in message_as_string :
-        flip_coin(sender_id)
-
-
-
+    elif COINFLIP in message_as_string or state is not None and state == COINFLIP :
+        state , message_out  = handle_coin_flip(sender_id, message_as_string)
+        send_message (sender_id, message_out)
+    elif QUERY in message_as_string and state is None:
+        msg_wait(sender_id)
+        send_image(sender_id, getFirstURL(message_as_string.replace(QUERY, '')))
 
     else:
         # generic reponse
-        message_out = message_text + ' daddy <3'
+        message_out = respond(message_text)
         send_message(sender_id, message_out)
 
     # store current information
@@ -134,7 +134,7 @@ def handle_message(sender_id, message_text):
     update_state(sender_id, state, user_info, message_as_string , message_out)
 
 
-    
+
 
 
 def get_state(sender_id):
@@ -143,8 +143,8 @@ def get_state(sender_id):
     """
     global history
     if history is None:
-        try :
-            with open('STATE.json') as data_file:    
+        try:
+            with open('STATE.json') as data_file:
                 history = json.load(data_file)
                 log("OPENED state file : {0}".format(history))
         except:
@@ -154,7 +154,7 @@ def get_state(sender_id):
         current_time = time.time()
         time_stamp, state, user_info, messages = history[sender_id]
 
-        if time_stamp - current_time < session_length:
+        if current_time - int(time_stamp) < session_length:
             # user is in a current session
             return True, False, state, user_info, messages
         else:
@@ -243,6 +243,7 @@ def log(message):  # simple wrapper for logging to stdout on heroku
     sys.stdout.flush()
 
 if __name__ == '__main__':
+    log("Main")
+    nltk.download('all')
     history = None
     app.run(debug=True)
-    

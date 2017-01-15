@@ -11,3 +11,5 @@ py-ms-cognitive
 numpy
 keras
 tensorflow
+tweepy
+textblob

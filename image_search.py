@@ -9,3 +9,7 @@ def getURL (search_term):
     return first_fifty_result[res].content_url
 
 
+def getFirstURL (search_term):
+    search_service = PyMsCognitiveImageSearch('5a41108e4cee4b4297e3887cff817ab3' , search_term)
+    first_fifty_result = search_service.search(limit=1, format='json') #1-50
+    return first_fifty_result[0].content_url
