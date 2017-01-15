@@ -90,23 +90,23 @@ def handle_message(sender_id, message_text):
         user_info = None #get_user_info(sender_id)
 
 
-    if not connected:
+    #if not connected:
         # if not connected, respond!
-        if new:
+    #    if new:
             # send greeting message
-            message_out = "Hey there, nice to meet you! :)"
-            send_message(sender_id, message_out)
-            if user_info is not None:
-                message_out = "Cool name! {0}, i like it... ;)".format(user_info["first_name"])
-                send_message(sender_id, message_out)
-        else:
+     #       message_out = "Hey there, nice to meet you! :)"
+     #       send_message(sender_id, message_out)
+    #        if user_info is not None:
+    #            message_out = "Cool name! {0}, i like it... ;)".format(user_info["first_name"])
+    #            send_message(sender_id, message_out)
+    #    else:
             # send welcome-back message
-            if user_info is not None:
-                message_out = "Great to see you again, {0}!".format(user_info["first_name"])
-                send_message(sender_id, message_out)
-            else:
-                message_out = "Great to see you again!"
-                send_message(sender_id, message_out)
+     #       if user_info is not None:
+     #           message_out = "Great to see you again, {0}!".format(user_info["first_name"])
+      #          send_message(sender_id, message_out)
+     # 3      else:
+     #           message_out = "Great to see you again!"
+     #           send_message(sender_id, message_out)
 
     if "help" in message_as_string:
         send_help(sender_id)
