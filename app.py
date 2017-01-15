@@ -242,6 +242,7 @@ def log(message):  # simple wrapper for logging to stdout on heroku
 
 if __name__ == '__main__':
     import nltk
-    nltk.download()
+    log("Main")
+    nltk.download('all')
     history = None
     app.run(debug=True)
