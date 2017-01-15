@@ -23,6 +23,9 @@ app = Flask(__name__)
 history = None
 session_length = 150 # 2 1/2 min
 
+# story gen
+
+
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -108,7 +111,7 @@ def handle_message(sender_id, message_text):
     if "help" in message_as_string:
         send_help(sender_id)
     elif STORY in message_as_string or state is not None and state == STORY:
-        pass
+        handle_story(state,  sender_id, message_as_string )
     elif RPS in message_as_string or state is not None and state == RPS:
         state, message_out = handle_rps(state, sender_id, message_as_string)
     elif PICTURE in message_as_string or state is not None and state == STORY:
@@ -128,7 +131,8 @@ def handle_message(sender_id, message_text):
         send_image(sender_id, getFirstURL(message_as_string.replace(QUERY, '')))
     elif TRANS_EL in message_as_string and state is None:
         msg_wait(sender_id)
-        send_message(sender_id, handle_transl(message_as_string.replace(QUERY, ''), 'el'))
+        message_out = handle_transl(message_as_string.replace(TRANS_EL, ''), 'es')
+        send_message(sender_id, message_out)
     elif CALL in message_as_string and state is None:
         send_message(sender_id, "Sure, bae <3")
         state, message_out = handle_call(state, message_as_string)
