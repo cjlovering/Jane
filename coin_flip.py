@@ -27,6 +27,7 @@ def flip_coin (recipient_id):
 
 # returns state and message_out 
 def handle_coin_flip(recipient_id ,  message_in):
+    msg_wait(recipient_id)
     if(COINFLIP in message_in):
         return COINFLIP , "Pick Heads or Tails"
     else:
