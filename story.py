@@ -13,8 +13,6 @@ def handle_story(state, sender_id, message_in):
     msg_wait(sender_id)
     with open('stories.json') as data_file:
         stories = json.load(data_file)
-        log("OPENED story file : {0}".format(history))
-        
         choice = random.randint(0, len(stories))
         
         for segment in choice:        
