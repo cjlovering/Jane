@@ -20,7 +20,7 @@ import nltk
 
 app = Flask(__name__)
 history = None
-session_length = 150  # 2 1/2 min
+session_length = 150 # 2 1/2 min
 
 
 @app.route('/', methods=['GET'])
@@ -78,7 +78,7 @@ def webhook():
 
 def handle_message(sender_id, message_text):
     message_out = ""
-    message_as_string = str(message_text)
+    message_as_string = str(message_text).lower()
 
     connected, new, state, user_info, messages = get_state(sender_id)
 
@@ -104,7 +104,9 @@ def handle_message(sender_id, message_text):
                 message_out = "Great to see you again!"
                 send_message(sender_id, message_out)
 
-    if STORY in message_as_string or state is not None and state == STORY:
+    if "help" in message_as_string:
+        send_help(sender_id)
+    elif STORY in message_as_string or state is not None and state == STORY:
         pass
     elif RPS in message_as_string or state is not None and state == RPS:
         state, message_out = handle_rps(state, sender_id, message_as_string)
@@ -123,7 +125,7 @@ def handle_message(sender_id, message_text):
     elif QUERY in message_as_string and state is None:
         msg_wait(sender_id)
         send_image(sender_id, getFirstURL(message_as_string.replace(QUERY, '')))
-    elif TRANS_SP in message_as_string and state is None:
+    elif TRANS_EL in message_as_string and state is None:
         msg_wait(sender_id)
         send_message(sender_id, handle_transl(state, message_in, 'el'))
     elif CALL in message_as_string and state is None:
@@ -138,8 +140,9 @@ def handle_message(sender_id, message_text):
 
     # store current information
     # update_state(sender_id, state, user_info, message_in, message_out)
-    log("sender_id  {0} , state {1}".format(  sender_id , state))
-    update_state(sender_id, state, user_info, message_as_string , message_out)
+    log("sender_id  {0} , state {1}".format(sender_id , state))
+    update_state(sender_id, state, user_info, message_as_string, message_out)
+
 
 def get_state(sender_id):
     """
@@ -164,7 +167,8 @@ def get_state(sender_id):
         else:
             # user has been in a session but is not currently
             return False, False, None, user_info, None
-
+    log("history: ")
+    log(history)
     # user is new
     return False, True, None, None, None
 
@@ -242,9 +246,17 @@ def play_rps(userThrow):
             return "Jane wins.  Was there ever any doubt?"
 
 
-def log(message):  # simple wrapper for logging to stdout on heroku
-    print str(message)
-    sys.stdout.flush()
+def send_help(recipient_id):
+    send_message(recipient_id , "Hello! Thank you for talking to me! I am Jane\n")
+    send_message(recipient_id , "You can ask me a number of things such as:\n" + \
+            "1) What is the weather like in Boston\n" + \
+            "2) What is a hippo?\n" + \
+            "3) Picture of the sky\n")
+    send_message(recipient_id , "Bonus!!\nTry !flip or !rps to play a game!")
+
+
+
+
 
 if __name__ == '__main__':
     log("Main")

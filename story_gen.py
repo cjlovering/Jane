@@ -44,7 +44,7 @@ def story_gen(message_in=""):
 	# one hot encode the output variable
 	y = np_utils.to_categorical(dataY)
 
-	# define the LSTM model
+	# define the LSTM model model = Sequential()
 	model = Sequential()
 	model.add(LSTM(256, input_shape=(X.shape[1], X.shape[2]), return_sequences=True))
 	model.add(Dropout(0.2))
@@ -53,7 +53,7 @@ def story_gen(message_in=""):
 	model.add(Dense(y.shape[1], activation='softmax'))
 
 	# load the network weights
-	filename = "weights-improvement-08-1.6670.hdf5"
+	filename = "weights-improvement-10-1.6184.hdf5"
 	model.load_weights(filename)
 	model.compile(loss='categorical_crossentropy', optimizer='adam')
 
@@ -77,5 +77,5 @@ def story_gen(message_in=""):
 		pattern = pattern[1:len(pattern)]
 
 	return results
-
-print "".join(story_gen("hello"))
+if __name__ == '__main__':
+	print "".join(story_gen("hello"))
