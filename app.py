@@ -22,7 +22,7 @@ history = None
 session_length = 15000  # 2 1/2 min
 
 log("outside main")
-nltk.download('all')
+nltk.download('minimal')
 
 
 @app.route('/', methods=['GET'])
