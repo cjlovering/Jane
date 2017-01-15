@@ -14,3 +14,4 @@ tensorflow
 tweepy
 textblob
 h5py
+#yandex.translate
