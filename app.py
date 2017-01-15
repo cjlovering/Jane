@@ -137,10 +137,7 @@ def handle_message(sender_id, message_text):
     # store current information
     # update_state(sender_id, state, user_info, message_in, message_out)
     log("sender_id  {0} , state {1}".format(sender_id , state))
-    update_state(sender_id, state, user_info, message_as_string , message_out)
-
-
-
+    update_state(sender_id, state, user_info, message_as_string, message_out)
 
 
 def get_state(sender_id):
@@ -166,7 +163,8 @@ def get_state(sender_id):
         else:
             # user has been in a session but is not currently
             return False, False, None, user_info, None
-
+    log("history: ")
+    log(history)
     # user is new
     return False, True, None, None, None
 
