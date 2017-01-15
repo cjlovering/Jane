@@ -47,36 +47,36 @@ def webhook():
     try:
         if data["object"] == "page":
             # TODO: just repond to last message
-        for entry in data["entry"]:
-            for messaging_event in entry["messaging"]:
-                # Messageing_event is type dict
-                if messaging_event.get("message"):  # someone sent us a message
-                    # u'message', u'timestamp', u'sender', u'recipient'
-                    log ("Values of Message_event : {0}".format(messaging_event.items()))
-                    log ("\nValues as JSON : {0}".format(json.dumps (messaging_event , indent=2)))
-                    sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
-                    recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
-                    try:
-                        message_text = messaging_event["message"]["text"]  # the message's text
-                    except:
-                        message_text = "BAD VALUE"
-
-                    try:
-                        message_text = message_text.encode('utf-8')
-                    except UnicodeError:
-                        print "string is not UTF-8"
-                        message_text = "NON UNICODE"
-
-                    handle_message(sender_id, message_text)
-
-                if messaging_event.get("delivery"):  # delivery confirmation
-                    pass
-
-                if messaging_event.get("optin"):  # optin confirmation
-                    pass
-
-                if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
-                    pass
+            for entry in data["entry"]:
+                for messaging_event in entry["messaging"]:
+                    # Messageing_event is type dict
+                    if messaging_event.get("message"):  # someone sent us a message
+                        # u'message', u'timestamp', u'sender', u'recipient'
+                        log ("Values of Message_event : {0}".format(messaging_event.items()))
+                        log ("\nValues as JSON : {0}".format(json.dumps (messaging_event , indent=2)))
+                        sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
+                        recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
+                        try:
+                            message_text = messaging_event["message"]["text"]  # the message's text
+                        except:
+                            message_text = "BAD VALUE"
+    
+                        try:
+                            message_text = message_text.encode('utf-8')
+                        except UnicodeError:
+                            print "string is not UTF-8"
+                            message_text = "NON UNICODE"
+    
+                        handle_message(sender_id, message_text)
+    
+                    if messaging_event.get("delivery"):  # delivery confirmation
+                        pass
+    
+                    if messaging_event.get("optin"):  # optin confirmation
+                        pass
+    
+                    if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
+                        pass
     except:
         log("Error found")
     return "ok", 200
