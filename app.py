@@ -138,6 +138,10 @@ def handle_message(sender_id, message_text):
         state, message_out = handle_call(state, message_as_string)
         send_message(sender_id, message_out)
 
+    elif "yes" in message_as_string:
+        send_message(sender_id, "OK")
+    elif "thank" in message_as_string:
+        send_messange(sender_id, "No problem! Anything for you ;)")
     else:
         # generic reponse
         message_out = respond(message_text)
