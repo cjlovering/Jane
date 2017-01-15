@@ -78,7 +78,7 @@ def webhook():
 
 def handle_message(sender_id, message_text):
     message_out = ""
-    message_as_string = str(message_text)
+    message_as_string = str(message_text).lower()
 
     connected, new, state, user_info, messages = get_state(sender_id)
 
@@ -104,7 +104,7 @@ def handle_message(sender_id, message_text):
                 message_out = "Great to see you again!"
                 send_message(sender_id, message_out)
 
-    if "help" in message_as_string.lower():
+    if "help" in message_as_string:
         send_help(sender_id)
     elif STORY in message_as_string or state is not None and state == STORY:
         pass
@@ -245,9 +245,9 @@ def play_rps(userThrow):
 def send_help(recipient_id):
     send_message(recipient_id , "Hello! Thank you for talking to me! I am Jane\n")
     send_message(recipient_id , "You can ask me a number of things such as:\n" + \
-            "\t1) What is the weather like in Boston" + \
-            "\t2) What is a hippo?" + \
-            "\t3) Picture of the sky")
+            "1) What is the weather like in Boston\n" + \
+            "2) What is a hippo?\n" + \
+            "3) Picture of the sky\n")
     send_message(recipient_id , "Bonus!!\nTry !flip or !rps to play a game!")
 
 
