@@ -44,9 +44,9 @@ def webhook():
     random.seed()
     data = request.get_json()
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
-
-    if data["object"] == "page":
-        # TODO: just repond to last message
+    try:
+        if data["object"] == "page":
+            # TODO: just repond to last message
         for entry in data["entry"]:
             for messaging_event in entry["messaging"]:
                 # Messageing_event is type dict
@@ -77,7 +77,8 @@ def webhook():
 
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
                     pass
-
+    except:
+        log("Error found")
     return "ok", 200
 
 def handle_message(sender_id, message_text):
