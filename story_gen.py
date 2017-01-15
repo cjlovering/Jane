@@ -86,7 +86,7 @@ def get_sequence(pattern, model,int_to_char, n_vocab, n_chars):
 if __name__ == '__main__':
     pattern, model, int_to_char, n_vocab, n_chars= story_gen()
     print "Starting...\n\n"
-    for i in range(7):
+    for i in range(15):
         pattern , result = get_sequence(pattern, model, int_to_char, n_vocab, n_chars)
         print "".join(result)
 	# print "".join(story_gen("hello"))
