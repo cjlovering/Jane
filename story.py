@@ -1,22 +1,47 @@
 from messages import *
+from image_search import *
 import random
 from story_gen import story_gen, get_sequence
 
-
-
 def handle_story(state, sender_id, message_in):
-    send_message(sender_id, "One second, looking through the libraries...")
-    pattern, model, int_to_char, n_vocab, n_chars = story_gen()
-    log("Finished building model...")
+    # pattern, model, int_to_char, n_vocab, n_chars = story_gen()
+    # log("Finished building model...")
     # build story
     potential = ["Let me think...", "I've got a good one...", "I made this one up myself...", "This happened a long time ago..."]
     send_message(sender_id, potential[random.randint(0,3)])
     msg_wait(sender_id)
-    for i in range(5):
-        pattern , result = get_sequence(pattern, model, int_to_char, n_vocab, n_chars)
-        message = "".join(result)
-        send_message(sender_id, message)
-        msg_wait(sender_id)
-    # send story
-    # format story
-    # sequence story, add images...
+
+    with open('stories.json') as data_file:
+        stories = json.load(data_file)
+        choice = stories[random.randint(0, len(stories) -1 )]
+        
+        for segment in choice:        
+            send_message(sender_id, segment)
+            msg_wait(sender_id)
+            
+            if random.random() > 0.6:
+                mode = get_most_common_word(segment)
+                send_image(sender_id, getURL(mode))
+            
+            time.sleep(4)
+
+def get_most_common_word(stream):
+    words = stream.split()
+    counts = {}
+    for w in words:
+        if len(w) > 3:
+            if w in counts:
+                counts[w] += 1
+            else:
+                counts[w] = 1
+    
+    word, count = "", -1
+    for key, value in counts.iteritems():
+        if value > count:
+            word, count = key, value
+            
+
+    return word
+
+            
+            

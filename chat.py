@@ -16,9 +16,9 @@ logger.setLevel(logging.DEBUG)
 
 # start:example-hello.py
 # Sentences we'll respond with if the user greeted us
-GREETING_KEYWORDS = ["hello", "hi", "greetings", "sup", "what's up", "how are you"]
+GREETING_KEYWORDS = ["hello", "hi", "greetings", "sup", "what's up", "how are you", ":)", ";)"]
 
-GREETING_RESPONSES = ["'sup bro", "hey", "*nods*", "hey you get my snap?"]
+GREETING_RESPONSES = ["hi ;)", "hey", "*nods*", "snapchat?"]
 
 def check_for_greeting(sentence):
     """If any of the words in the user's input was a greeting, return a greeting response"""
@@ -31,12 +31,18 @@ def check_for_greeting(sentence):
 NONE_RESPONSES = [
     "uh whatever",
     # "meet me at the foosball table, bro?",
-    "Why?"
+    "Why?",
     # "code hard bro",
-    "Want to bro down and crush code?",
     # "I'd like to add you to my professional network on LinkedIn",
-    "I can't even"
-    "I can't believe you said that..."
+    "I can't even...",
+    "I can't believe you said that...",
+    "surrre ;)",
+    "...",
+    ":)",
+    "wtf why??",
+    "nahhhhh :)",
+    "can you say that again!"
+
     # "Have you closed your seed round, dog?",
 ]
 # end
@@ -46,7 +52,6 @@ NONE_RESPONSES = [
 COMMENTS_ABOUT_SELF = [
     "You're just jealous of my looks",
     "I worked really hard on that",
-    "My Klout score is {}".format(random.randint(100, 500)),
     "Low energy..."
 ]
 # end

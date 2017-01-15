@@ -44,40 +44,42 @@ def webhook():
     random.seed()
     data = request.get_json()
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
-
-    if data["object"] == "page":
-        # TODO: just repond to last message
-        for entry in data["entry"]:
-            for messaging_event in entry["messaging"]:
-                # Messageing_event is type dict
-                if messaging_event.get("message"):  # someone sent us a message
-                    # u'message', u'timestamp', u'sender', u'recipient'
-                    log ("Values of Message_event : {0}".format(messaging_event.items()))
-                    log ("\nValues as JSON : {0}".format(json.dumps (messaging_event , indent=2)))
-                    sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
-                    recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
-                    try:
-                        message_text = messaging_event["message"]["text"]  # the message's text
-                    except:
-                        message_text = "BAD VALUE"
-
-                    try:
-                        message_text = message_text.encode('utf-8')
-                    except UnicodeError:
-                        print "string is not UTF-8"
-                        message_text = "NON UNICODE"
-
-                    handle_message(sender_id, message_text)
-
-                if messaging_event.get("delivery"):  # delivery confirmation
-                    pass
-
-                if messaging_event.get("optin"):  # optin confirmation
-                    pass
-
-                if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
-                    pass
-
+    try:
+        if data["object"] == "page":
+            # TODO: just repond to last message
+            for entry in data["entry"]:
+                for messaging_event in entry["messaging"]:
+                    # Messageing_event is type dict
+                    if messaging_event.get("message"):  # someone sent us a message
+                        # u'message', u'timestamp', u'sender', u'recipient'
+                        log ("Values of Message_event : {0}".format(messaging_event.items()))
+                        log ("\nValues as JSON : {0}".format(json.dumps (messaging_event , indent=2)))
+                        sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
+                        recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
+                        try:
+                            message_text = messaging_event["message"]["text"]  # the message's text
+                        except:
+                            message_text = "BAD VALUE"
+    
+                        try:
+                            message_text = message_text.encode('utf-8')
+                        except UnicodeError:
+                            print "string is not UTF-8"
+                            message_text = "NON UNICODE"
+    
+                        handle_message(sender_id, message_text)
+    
+                    if messaging_event.get("delivery"):  # delivery confirmation
+                        pass
+    
+                    if messaging_event.get("optin"):  # optin confirmation
+                        pass
+    
+                    if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
+                        pass
+    except:
+        pass
+    
     return "ok", 200
 
 def handle_message(sender_id, message_text):
@@ -90,28 +92,30 @@ def handle_message(sender_id, message_text):
         user_info = None #get_user_info(sender_id)
 
 
-    if not connected:
+    #if not connected:
         # if not connected, respond!
-        if new:
+    #    if new:
             # send greeting message
-            message_out = "Hey there, nice to meet you! :)"
-            send_message(sender_id, message_out)
-            if user_info is not None:
-                message_out = "Cool name! {0}, i like it... ;)".format(user_info["first_name"])
-                send_message(sender_id, message_out)
-        else:
+     #       message_out = "Hey there, nice to meet you! :)"
+     #       send_message(sender_id, message_out)
+    #        if user_info is not None:
+    #            message_out = "Cool name! {0}, i like it... ;)".format(user_info["first_name"])
+    #            send_message(sender_id, message_out)
+    #    else:
             # send welcome-back message
-            if user_info is not None:
-                message_out = "Great to see you again, {0}!".format(user_info["first_name"])
-                send_message(sender_id, message_out)
-            else:
-                message_out = "Great to see you again!"
-                send_message(sender_id, message_out)
+     #       if user_info is not None:
+     #           message_out = "Great to see you again, {0}!".format(user_info["first_name"])
+      #          send_message(sender_id, message_out)
+     # 3      else:
+     #           message_out = "Great to see you again!"
+     #           send_message(sender_id, message_out)
 
     if "help" in message_as_string:
         send_help(sender_id)
     elif STORY in message_as_string or state is not None and state == STORY:
         handle_story(state,  sender_id, message_as_string )
+        state = None
+        message_out = ""
     elif RPS in message_as_string or state is not None and state == RPS:
         state, message_out = handle_rps(state, sender_id, message_as_string)
     elif PICTURE in message_as_string or state is not None and state == STORY:
@@ -129,15 +133,19 @@ def handle_message(sender_id, message_text):
     elif QUERY in message_as_string and state is None:
         msg_wait(sender_id)
         send_image(sender_id, getFirstURL(message_as_string.replace(QUERY, '')))
-    elif TRANS_EL in message_as_string and state is None:
-        msg_wait(sender_id)
-        message_out = handle_transl(message_as_string.replace(TRANS_EL, ''))
-        send_message(sender_id, message_out)
+    #elif TRANS_EL in message_as_string and state is None:
+    #    msg_wait(sender_id)
+    #    message_out = handle_transl(message_as_string.replace(TRANS_EL, ''))
+    #    send_message(sender_id, message_out)
     elif CALL in message_as_string and state is None:
         send_message(sender_id, "Sure, bae <3")
         state, message_out = handle_call(state, message_as_string)
         send_message(sender_id, message_out)
 
+    elif "yes" in message_as_string:
+        send_message(sender_id, "OK")
+    elif "thank" in message_as_string:
+        send_messange(sender_id, "No problem! Anything for you ;)")
     else:
         # generic reponse
         message_out = respond(message_text)

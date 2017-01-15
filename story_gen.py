@@ -51,7 +51,7 @@ def story_gen(message_in=""):
 	model.add(Dense(y.shape[1], activation='softmax'))
 
 	# load the network weights
-	filename = "weights-improvement-10-1.6184.hdf5"
+	filename = "weights-improvement-20-1.2619.hdf5"
 	model.load_weights(filename)
 	model.compile(loss='categorical_crossentropy', optimizer='adam')
 
@@ -86,7 +86,7 @@ def get_sequence(pattern, model,int_to_char, n_vocab, n_chars):
 if __name__ == '__main__':
     pattern, model, int_to_char, n_vocab, n_chars= story_gen()
     print "Starting...\n\n"
-    for i in range(3):
+    for i in range(15):
         pattern , result = get_sequence(pattern, model, int_to_char, n_vocab, n_chars)
         print "".join(result)
 	# print "".join(story_gen("hello"))

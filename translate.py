@@ -4,9 +4,14 @@ dict = {'english': 'en', 'spanish': 'es', 'italian': 'it', 'greek': 'el', 'russi
 
 def handle_transl(message_in):
     phrase = []
+    words = ""
     phrase = message_in.split(" in ")
+<<<<<<< HEAD
     words = None
     if "translate" in phrase:
+=======
+    if "translate" in phrase[0]:
+>>>>>>> 5d5bdcf8fe9d90899c09db1e229721e61d5ba568
         # delete
         words = phrase[0].replace("translate","")
     target = dict[phrase[1]]
