@@ -32,9 +32,9 @@ def handle_coin_flip(recipient_id ,  message_in):
         return COINFLIP , "Pick Heads or Tails"
     else:
         choice = None
-        if("Heads" in message_in):
+        if("heads" in message_in):
             choice = "HEADS"
-        elif("Tails" in message_in):
+        elif("tails" in message_in):
             choice = "TAILS"
 
         if(choice is None):
