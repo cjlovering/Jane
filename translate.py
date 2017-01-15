@@ -7,4 +7,4 @@ def handle_transl(message_in, target):
     print tstring[0].encode('utf-8')
     return tstring
 
-#handle_transl('cat', 'es')
+handle_transl('cat', 'es')
