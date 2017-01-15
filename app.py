@@ -120,7 +120,8 @@ def handle_message(sender_id, message_text):
         state , message_out  = handle_coin_flip(sender_id, message_as_string)
         send_message (sender_id, message_out)
     elif QUERY in message_as_string and state is None:
-        send_image(sender_id, getURL(message_as_string.replace(QUERY, '')))
+        msg_wait(sender_id)
+        send_image(sender_id, getFirstURL(message_as_string.replace(QUERY, '')))
 
     else:
         # generic reponse
