@@ -52,7 +52,7 @@ def story_gen(message_in=""):
 	model.add(Dense(y.shape[1], activation='softmax'))
 
 	# load the network weights
-	filename = "weights-improvement-08-1.6670.hdf5"
+	filename = "weights-improvement-10-1.6184.hdf5"
 	model.load_weights(filename)
 	model.compile(loss='categorical_crossentropy', optimizer='adam')
 
